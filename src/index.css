@@ -12,3 +12,17 @@
 :where(.css-dev-only-do-not-override-qnu6hi).ant-menu-horizontal {
     border-bottom: 0;
 }
+:where(.css-dev-only-do-not-override-qnu6hi).ant-btn-default:not(:disabled):not(
+        .ant-btn-disabled
+    ):hover {
+    color: black;
+    border-color: black;
+    background: #ffffff;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-form-item
+    .ant-form-item-label
+    > label.ant-form-item-required:not(
+        .ant-form-item-required-mark-optional
+    )::before {
+    content: "";
+}

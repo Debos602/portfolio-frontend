@@ -1,6 +1,6 @@
 import { Rate } from "antd";
 import image from "../../assets/bg-6.jpg";
-import testi1 from "../../assets/testi-1-removebg-preview.png";
+import testi1 from "../../assets/team2.jpg";
 import testi2 from "../../assets/testi-2-removebg-preview.png";
 import testi3 from "../../assets/testi-3-removebg-preview.png";
 

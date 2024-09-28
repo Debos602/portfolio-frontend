@@ -1,14 +1,15 @@
 import Buttons from "@/components/Buttons";
 import image from "../../assets/about.png";
 import image2 from "../../assets/shop.jpg";
-import team1 from "../../assets/team3-removebg-preview.png";
-import team2 from "../../assets/team2-removebg-preview (1).png";
-import team3 from "../../assets/testi-3-removebg-preview.png";
-import team4 from "../../assets/team4-removebg-preview.png";
+import team1 from "../../assets/team.png";
+import team2 from "../../assets/team2.png";
+import team3 from "../../assets/team3.png";
+import team4 from "../../assets/team4.png";
 import backgroundImage from "../../assets/about-banner.jpg";
 import carRight from "../../assets/car-right.png";
 import carLeft from "../../assets/commit.jpg";
 import contactBg from "../../assets/ban-bg-03.png";
+import CustomSection from "@/components/CustomSection";
 
 const About = () => {
     const bgImage = {
@@ -20,20 +21,13 @@ const About = () => {
     };
 
     return (
-        <div className="mt-[135px]">
+        <div>
             {/* About Section */}
-            <section
-                className="bg-cover bg-center bg-no-repeat py-20"
-                style={{ backgroundImage: `url(${image})` }}
-            >
-                <div className="container mx-auto px-4 text-center text-white">
-                    <h1 className="text-4xl font-bold mb-4">About Us</h1>
-                    <p className="text-lg mb-8">
-                        Learn more about our company, our team, and our
-                        commitment to excellence.
-                    </p>
-                </div>
-            </section>
+            <CustomSection
+                image={image}
+                title="About Us"
+                paragraph="Learn more about our company, our team, and our commitment to excellence."
+            />
 
             {/* Company History */}
             <section className="py-16 bg-gray-200">

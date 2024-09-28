@@ -1,4 +1,6 @@
 import About from "@/pages/About/About";
+import Car from "@/pages/car/Car";
+
 import Home from "@/pages/Home/Home";
 
 export const navPaths = [
@@ -13,8 +15,13 @@ export const navPaths = [
         element: <About />,
     },
     {
+        name: "Car-List",
+        path: "/cars",
+        element: <Car></Car>,
+    },
+    {
         name: "Bookings",
-        path: "/bookings",
+        path: "/bookings/:id",
         element: <div>Bookings</div>,
     },
     {

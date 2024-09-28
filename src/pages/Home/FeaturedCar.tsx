@@ -4,14 +4,7 @@ import { Card } from "antd";
 import Slider, { CustomArrowProps } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-interface Car {
-    _id: string;
-    name: string;
-    image: string;
-    pricePerHour: number;
-    description: string;
-}
+import { TCar } from "@/types/global";
 
 // Custom Next Arrow
 const NextArrow = (props: CustomArrowProps) => {
@@ -46,7 +39,8 @@ const FeaturedCars = () => {
 
     const carsArray = Array.isArray(cars?.data) ? cars?.data : [];
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading)
+        return <p className="text-center font-bold text-red-700">Loading...</p>;
     if (isError) return <p>Failed to load cars.</p>;
 
     const settings = {
@@ -101,7 +95,7 @@ const FeaturedCars = () => {
                                 {...settings}
                                 className="rounded-xl overflow-hidden "
                             >
-                                {carsArray?.map((car: Car) => (
+                                {carsArray?.map((car: TCar) => (
                                     <div key={car._id} className="px-3">
                                         {/* Padding for gap */}
                                         <Card
@@ -118,9 +112,14 @@ const FeaturedCars = () => {
                                             }
                                         >
                                             <Card.Meta
+                                                className="text-black text-md"
                                                 title={car.name}
                                                 description={`Description: ${car.description}`}
                                             />
+                                            <p className="text-lg font-semibold text-gray-700 mt-4">
+                                                Price per hour: $
+                                                {car.pricePerHour}
+                                            </p>
                                         </Card>
                                     </div>
                                 ))}

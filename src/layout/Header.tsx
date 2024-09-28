@@ -1,17 +1,34 @@
 import Buttons from "@/components/Buttons";
 import { navPaths } from "@/routes/navRoutes";
 import {
+    DownOutlined,
     EnvironmentOutlined,
     FacebookOutlined,
     MailOutlined,
     TwitterOutlined,
+    UserOutlined,
     YoutubeOutlined,
 } from "@ant-design/icons";
-import { Menu } from "antd";
+import { Avatar, Dropdown, Menu, MenuProps, message, Space } from "antd";
 import logo from "../assets/car-lgo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "@/redux/hook"; // Import dispatch hook
+import { logout } from "@/redux/feature/authSlice";
 
 const Header = () => {
+    const user = useAppSelector((state) => state.auth.user);
+    console.log("user", user);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = (e: React.FormEvent) => {
+        e.preventDefault(); // Prevent default form submission behavior
+        // Dispatch logout action
+        dispatch(logout());
+        // Redirect to login page
+        navigate("/login");
+    };
+
     const menuItems = navPaths.map((navItem, index) => ({
         key: index,
         label: (
@@ -20,6 +37,27 @@ const Header = () => {
             </Link>
         ),
     }));
+    const onClick: MenuProps["onClick"] = ({ key }) => {
+        message.info(`Click on item ${key}`);
+    };
+    const items: MenuProps["items"] = [
+        {
+            label: "1st menu item",
+            key: "1",
+        },
+        {
+            label: "2nd menu item",
+            key: "2",
+        },
+        {
+            label: (
+                <Link onClick={handleLogout} to="/login">
+                    Logout
+                </Link>
+            ),
+            key: "3",
+        },
+    ];
 
     return (
         <div className="">
@@ -59,7 +97,24 @@ const Header = () => {
                             items={menuItems}
                         ></Menu>
                     </div>
-                    <Buttons to="/login">Login</Buttons>
+                    {user?.role === "admin" || user?.role === "user" ? (
+                        <Dropdown menu={{ items, onClick }}>
+                            <a onClick={(e) => e.preventDefault()}>
+                                <Space>
+                                    <Avatar
+                                        size="large"
+                                        icon={<UserOutlined />}
+                                    />
+                                    <DownOutlined />
+                                </Space>
+                            </a>
+                        </Dropdown>
+                    ) : (
+                        // <form onSubmit={handleLogout}>
+                        //     <Buttons to="/login">Logout</Buttons>
+                        // </form>
+                        <Buttons to="/login">Login</Buttons>
+                    )}
                 </div>
             </div>
         </div>
