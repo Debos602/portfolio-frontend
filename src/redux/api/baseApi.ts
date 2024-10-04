@@ -15,9 +15,9 @@ const baseQuery = fetchBaseQuery({
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
-
+        console.log(token);
         if (token) {
-            headers.set("authorization", `${token}`);
+            headers.set("authorization", `Bearer ${token}`);
         }
 
         return headers;
@@ -26,47 +26,52 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithRefreshToken: BaseQueryFn<
     FetchArgs,
-    unknown, // Set the result type to 'unknown' if you're not sure of the exact type
-    FetchBaseQueryError // This ensures that 'result.error' is properly typed
+    unknown,
+    FetchBaseQueryError
 > = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
-    if (result?.error?.status === 404) {
-        const errorData = result.error.data as { message: string }; // Type assertion
-        toast.error(errorData.message);
-    }
+    // Log errors for different statuses
+    if (result?.error) {
+        console.error("API Error:", result.error);
 
-    if (result?.error?.status === 403) {
-        const errorData = result.error.data as { message: string }; // Type assertion
-        toast.error(errorData.message);
-    }
+        if (result.error.status === 404 || result.error.status === 403) {
+            const errorData = result.error.data as { message: string };
+            toast.error(errorData.message);
+        }
 
-    if (result?.error?.status === 401) {
-        console.log("Sending refresh token");
+        if (result.error.status === 401) {
+            console.log("Sending refresh token");
 
-        const res = await fetch(
-            "http://localhost:5000/api/auth/refresh-token",
-            {
-                method: "POST",
-                credentials: "include",
-            }
-        );
-
-        const data = await res.json();
-
-        if (data?.data?.accessToken) {
-            const user = (api.getState() as RootState).auth.user;
-
-            api.dispatch(
-                setUser({
-                    user,
-                    token: data.data.accessToken,
-                })
+            const res = await fetch(
+                "http://localhost:5000/api/auth/refresh-token",
+                {
+                    method: "POST",
+                    credentials: "include",
+                }
             );
 
-            result = await baseQuery(args, api, extraOptions);
-        } else {
-            api.dispatch(logout());
+            const data = await res.json();
+            console.log("Refresh token response:", data); // Log the response
+
+            if (data?.data?.accessToken) {
+                console.log("Setting new token:", data.data.accessToken);
+                const user = (api.getState() as RootState).auth.user;
+
+                api.dispatch(
+                    setUser({
+                        user,
+                        token: data.data.accessToken,
+                    })
+                );
+
+                // Reattempt the original request with the new token
+                result = await baseQuery(args, api, extraOptions);
+                console.log("Result after retrying with new token:", result);
+            } else {
+                console.error("No access token received, dispatching logout.");
+                api.dispatch(logout());
+            }
         }
     }
 
@@ -76,6 +81,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: baseQueryWithRefreshToken,
-    tagTypes: [],
+    tagTypes: ["User", "Admin"],
     endpoints: () => ({}),
 });

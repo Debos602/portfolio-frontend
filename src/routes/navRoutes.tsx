@@ -1,4 +1,6 @@
+import ProtectedRoute from "@/layout/ProtectedRoute";
 import About from "@/pages/About/About";
+import Booking from "@/pages/Booking";
 import Car from "@/pages/car/Car";
 
 import Home from "@/pages/Home/Home";
@@ -21,8 +23,12 @@ export const navPaths = [
     },
     {
         name: "Bookings",
-        path: "/bookings/:id",
-        element: <div>Bookings</div>,
+        path: "/booking",
+        element: (
+            <ProtectedRoute allowedRoles={["admin", "user"]}>
+                <Booking />
+            </ProtectedRoute>
+        ),
     },
     {
         name: "Contact",

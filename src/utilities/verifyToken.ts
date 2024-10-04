@@ -1,15 +1,17 @@
-import { jwtDecode } from "jwt-decode"; // Change the import statement
+import { jwtDecode } from "jwt-decode"; // Correct the import statement
 
 // Extend the JwtPayload type to include your custom fields
 interface CustomJwtPayload {
     userId: string;
-    role: string;
+    role: "admin" | "user";
+    // Add any other fields you expect in your token
 }
 
 // Utility function to decode the token
 export const verifyToken = (token: string): CustomJwtPayload | null => {
     try {
-        return jwtDecode(token) as CustomJwtPayload; // Cast the return value
+        // Cast the decoded token as CustomJwtPayload
+        return jwtDecode<CustomJwtPayload>(token);
     } catch (error) {
         console.error("Invalid token", error);
         return null;

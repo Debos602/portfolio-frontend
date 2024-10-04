@@ -1,18 +1,23 @@
 import CustomSection from "@/components/CustomSection";
 import image1 from "../../assets/about.png";
 import { useGetCarByIdQuery } from "@/redux/feature/car/carManagement.api";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { Rate } from "antd";
+import { useCreateBookingMutation } from "@/redux/feature/booking/bookingApi";
+import { TCar } from "@/types/global";
+import { toast } from "sonner";
 
 // Define the keys for extras
 type ExtraOption = "insurance" | "gps" | "childSeat";
 
 const CarDetails = () => {
     const { id } = useParams();
-    const { data: car, isLoading, error } = useGetCarByIdQuery(id);
+    const { data: car, isLoading, error, refetch } = useGetCarByIdQuery(id);
+    const [createBooking] = useCreateBookingMutation();
+    const navigate = useNavigate();
 
     // Define the state with exact types for extras
     const [selectedExtras, setSelectedExtras] = useState<{
@@ -24,6 +29,27 @@ const CarDetails = () => {
         gps: false,
         childSeat: false,
     });
+
+    const handleBookNow = async (car: TCar) => {
+        const startTime = new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+        const bookingData = {
+            carId: car._id, // Use car ID
+            date: new Date().toISOString(),
+            startTime: startTime,
+        };
+        console.log(bookingData);
+        try {
+            await createBooking(bookingData).unwrap(); // Call the booking API
+            toast.success("Booking created successfully"); // Redirect to the booking page
+            navigate("/booking", { replace: true });
+            refetch();
+        } catch (error) {
+            console.error("Failed to create booking:", error);
+        }
+    };
 
     // Handle loading and error states
     if (isLoading) {
@@ -62,18 +88,18 @@ const CarDetails = () => {
             <div className="container mx-auto py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Car Image */}
-                    <div className="border-2 border-gray-300 p-4">
+                    <div className="border-2 border-gray-300 p-4 h-full  flex items-center justify-center rounded-xl">
                         <Zoom>
                             <img
                                 src={image}
                                 alt={name}
-                                className="w-full h-full object-cover rounded-lg"
+                                className=" object-cover rounded-xl"
                             />
                         </Zoom>
                     </div>
 
                     {/* Car Details */}
-                    <div className="border-2 border-gray-300 p-4">
+                    <div className="border-2 border-gray-300 p-4 from-amber-200 to-amber-50 bg-gradient-to-b rounded-xl">
                         <h2 className="text-2xl font-bold">{name}</h2>
                         <p className="text-lg mt-2">{description}</p>
                         <p className="mt-4">
@@ -146,10 +172,23 @@ const CarDetails = () => {
                         </div>
 
                         <Link
-                            to={`/bookings/${car.data._id}`} // Ensure this route leads to your booking page
-                            className="mt-6 inline-block bg-black text-white px-6 py-2 hover:bg-gray-800 rounded-xl"
+                            onClick={(e) => {
+                                if (status === "unavailable") {
+                                    e.preventDefault(); // Prevent the link from navigating if the car is unavailable
+                                } else {
+                                    handleBookNow(car.data); // Proceed with booking if available
+                                }
+                            }}
+                            to={status === "available" ? `/booking` : "#"} // Prevent link navigation when unavailable
+                            className={`mt-6 inline-block text-white px-6 py-2 rounded-xl ${
+                                status === "unavailable"
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-black hover:bg-gray-800"
+                            }`}
                         >
-                            Book Now
+                            {status === "unavailable"
+                                ? "Unavailable"
+                                : "Book Now"}
                         </Link>
                     </div>
                 </div>

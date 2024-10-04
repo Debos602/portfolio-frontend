@@ -23,31 +23,29 @@ const Login: React.FC = () => {
         console.log("Form Data:", data); // Debugging form data
 
         try {
-            // Unwrapping the API response to handle success/failure
             const response = await userLogin(data).unwrap();
-
             console.log("API Response:", response); // Log the entire response for debugging
 
-            // Extract user and token from the response
             const { data: user, token } = response;
 
-            // Check if user and token exist in the response
             if (user && token) {
-                // Dispatch to update the Redux state
                 dispatch(setUser({ user, token }));
-
-                // Display a success message
                 toast.success("Login Successful");
 
-                // Redirect to the desired page
-                navigate(state?.pathname || "/dashboard");
+                if (user.role === "admin") {
+                    navigate(state?.pathname || "/admin-dashboard", {
+                        replace: true,
+                    });
+                } else {
+                    navigate(state?.pathname || "/dashboard", {
+                        replace: true,
+                    });
+                }
             } else {
-                // If the structure is unexpected, log the response and show an error
                 console.error("Unexpected response structure:", response);
                 toast.error("Invalid response from server.");
             }
         } catch (error) {
-            // Handle login failure and show error message
             console.error("Login error:", error);
             toast.error("Login failed, please try again.");
         }

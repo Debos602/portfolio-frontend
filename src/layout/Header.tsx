@@ -9,15 +9,17 @@ import {
     UserOutlined,
     YoutubeOutlined,
 } from "@ant-design/icons";
-import { Avatar, Dropdown, Menu, MenuProps, message, Space } from "antd";
+import { Avatar, Dropdown, Menu, MenuProps, Space } from "antd";
 import logo from "../assets/car-lgo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "@/redux/hook"; // Import dispatch hook
 import { logout } from "@/redux/feature/authSlice";
+import { TUser } from "@/types/global";
+import { clearBookings } from "@/redux/feature/booking/bookingSlice";
 
 const Header = () => {
-    const user = useAppSelector((state) => state.auth.user);
-    console.log("user", user);
+    const user = useAppSelector((state) => state.auth.user as TUser | null);
+    // console.log("user", user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -25,6 +27,7 @@ const Header = () => {
         e.preventDefault(); // Prevent default form submission behavior
         // Dispatch logout action
         dispatch(logout());
+        dispatch(clearBookings());
         // Redirect to login page
         navigate("/login");
     };
@@ -37,12 +40,19 @@ const Header = () => {
             </Link>
         ),
     }));
-    const onClick: MenuProps["onClick"] = ({ key }) => {
-        message.info(`Click on item ${key}`);
-    };
+
     const items: MenuProps["items"] = [
         {
-            label: "1st menu item",
+            label:
+                user?.role === "admin" ? (
+                    <Link className="text-md font-medium" to="/admin-dashboard">
+                        Admin-dashboard
+                    </Link>
+                ) : (
+                    <Link className="text-md font-medium" to="/dashboard">
+                        Dashboard
+                    </Link>
+                ),
             key: "1",
         },
         {
@@ -51,7 +61,11 @@ const Header = () => {
         },
         {
             label: (
-                <Link onClick={handleLogout} to="/login">
+                <Link
+                    className="text-md font-medium"
+                    onClick={handleLogout}
+                    to="/login"
+                >
                     Logout
                 </Link>
             ),
@@ -81,38 +95,42 @@ const Header = () => {
                         <TwitterOutlined className="bg-amber-400 p-2 text-sm rounded-full" />
                     </div>
                 </div>
-                <div className="container mx-auto flex justify-between items-center bg-white ">
+                <div className="container mx-auto flex justify-between items-center bg-white border-b-2 border-amber-500 ">
                     <Link to="/">
-                        <img src={logo} className="h-24" alt="" />
+                        <img src={logo} className="h-24 object-cover" alt="" />
                     </Link>{" "}
                     <div className="">
                         <Menu
-                            className="max-md:hidden w-full justify-end items-end font-sans text-xl font-bold"
+                            className="max-md:hidden w-full  justify-end items-end font-sans text-xl font-bold bg-white "
                             mode="horizontal"
                             items={menuItems}
                         ></Menu>
                         <Menu
-                            className="md:hidden w-full justify-end items-center font-sans text-xl font-bold"
+                            className="md:hidden w-full  justify-end items-center font-sans text-xl font-bold bg-white"
                             mode="vertical"
                             items={menuItems}
                         ></Menu>
                     </div>
                     {user?.role === "admin" || user?.role === "user" ? (
-                        <Dropdown menu={{ items, onClick }}>
-                            <a onClick={(e) => e.preventDefault()}>
-                                <Space>
-                                    <Avatar
-                                        size="large"
-                                        icon={<UserOutlined />}
-                                    />
-                                    <DownOutlined />
-                                </Space>
-                            </a>
-                        </Dropdown>
+                        <div className="flex items-center">
+                            <Dropdown menu={{ items }}>
+                                <a onClick={(e) => e.preventDefault()}>
+                                    <Space>
+                                        <Avatar
+                                            size="large"
+                                            icon={<UserOutlined />}
+                                        />
+                                        <DownOutlined />
+                                    </Space>
+                                </a>
+                            </Dropdown>
+                            <div className="ml-2">
+                                <p className="text-lg font-bold uppercase">
+                                    {user?.name}
+                                </p>
+                            </div>
+                        </div>
                     ) : (
-                        // <form onSubmit={handleLogout}>
-                        //     <Buttons to="/login">Logout</Buttons>
-                        // </form>
                         <Buttons to="/login">Login</Buttons>
                     )}
                 </div>

@@ -3,7 +3,7 @@ import { RootState } from "../store";
 
 export type TUser = {
     userId: string;
-    role: string;
+    role: "admin" | "user";
     iat: number;
     exp: number;
 };
@@ -14,8 +14,8 @@ type TAuthState = {
 };
 
 const initialState: TAuthState = {
-    user: null,
     token: null,
+    user: null as TUser | null,
 };
 
 const authSlice = createSlice({
@@ -27,6 +27,7 @@ const authSlice = createSlice({
             state.user = user;
             state.token = token;
         },
+
         logout: (state) => {
             state.user = null;
             state.token = null;

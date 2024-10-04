@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./feature/authSlice";
+import bookingReducer from "./feature/booking/bookingSlice";
+import carReducer from "./feature/car/carSlice"; // Import only the reducer, not CarState here
 import { baseApi } from "./api/baseApi";
 import {
     persistReducer,
@@ -24,6 +26,8 @@ export const store = configureStore({
     reducer: {
         [baseApi.reducerPath]: baseApi.reducer,
         auth: persistedAuthReducer,
+        booking: bookingReducer,
+        car: carReducer, // Use the carReducer here
     },
     middleware: (getDefaultMiddlewares) =>
         getDefaultMiddlewares({
@@ -42,7 +46,6 @@ export const store = configureStore({
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
 export const persistor = persistStore(store);

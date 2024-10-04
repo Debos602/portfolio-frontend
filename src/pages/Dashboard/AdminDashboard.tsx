@@ -17,7 +17,7 @@ import { TUser } from "@/types/global";
 
 const { Header, Sider, Content } = Layout;
 
-const Dashboard: React.FC = () => {
+const AdminDashboard: React.FC = () => {
     const user = useAppSelector(
         (state: RootState) => state.auth.user as TUser | null
     );
@@ -38,12 +38,12 @@ const Dashboard: React.FC = () => {
         {
             key: "1",
             icon: <UserOutlined />,
-            label: <Link to="/dashboard/profile">Profile</Link>,
+            label: <Link to="dashboard-overview">Dashboard Overview</Link>,
         },
         {
             key: "2",
             icon: <BookOutlined />,
-            label: <Link to="/dashboard/booking">Booking Management</Link>,
+            label: <Link to="manage-car">Manage car</Link>,
         },
         {
             key: "3",
@@ -89,8 +89,8 @@ const Dashboard: React.FC = () => {
                                     items: [
                                         {
                                             label: (
-                                                <Link to="/dashboard">
-                                                    Dashboard
+                                                <Link to="/admin-dashboard">
+                                                    Admin Dashboard
                                                 </Link>
                                             ),
                                             key: "1",
@@ -151,4 +151,4 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default Dashboard;
+export default AdminDashboard;

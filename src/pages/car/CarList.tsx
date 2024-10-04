@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGetAllCarsQuery } from "@/redux/feature/car/carManagement.api";
 import { TCar } from "@/types/global";
-import { Table, TableColumnsType, Select, Button, Form, Input } from "antd";
+import { Select, Button, Form, Input } from "antd";
 import { Link, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
@@ -17,7 +17,8 @@ interface IFilterValues {
 }
 
 const CarList = () => {
-    const { data: cars, isFetching } = useGetAllCarsQuery(undefined);
+    const { data: cars } = useGetAllCarsQuery(undefined);
+    console.log(cars);
     const [filteredCars, setFilteredCars] = useState<TCar[] | undefined>(
         cars?.data
     );
@@ -102,81 +103,11 @@ const CarList = () => {
         setFilteredCars(cars?.data); // Reset the filtered data to show all cars
     };
 
-    const tableData = filteredCars?.map(
-        ({ _id, name, image, pricePerHour, description }) => ({
-            key: _id,
-            name: name,
-            image: image,
-            pricePerHour: pricePerHour,
-            description: description,
-        })
-    );
-
-    const columns: TableColumnsType<{
-        key: string;
-        name: string;
-        image: string;
-        pricePerHour: number;
-        description: string;
-    }> = [
-        {
-            title: "Image",
-            key: "image",
-            dataIndex: "image",
-            render: (image) => (
-                <img
-                    src={image}
-                    alt={image}
-                    className="h-32 w-52 rounded-3xl border-2 hover:scale-105 transition-transform duration-300 object-cover"
-                />
-            ),
-        },
-        {
-            title: "Name",
-            key: "name",
-            dataIndex: "name",
-            render: (name) => <p className="font-semibold">{name}</p>,
-        },
-        {
-            title: "Price Per Hour",
-            key: "pricePerHour",
-            dataIndex: "pricePerHour",
-            render: (pricePerHour) => (
-                <p className="font-semibold">${pricePerHour}</p>
-            ),
-        },
-        {
-            title: "Description",
-            key: "description",
-            dataIndex: "description",
-            render: (description: string) => (
-                <p>
-                    {description.slice(0, 40)}
-                    {description.length > 50 ? "..." : ""}
-                </p>
-            ),
-        },
-        {
-            title: "Action",
-            key: "action",
-            render: (
-                text,
-                record // Use record to access car properties
-            ) => (
-                <Link
-                    to={`/car-details/${record.key}`} // Change 'key' to '_id' if needed
-                    className="bg-black px-2 py-2 rounded-xl text-white border-2 border-black hover:bg-white hover:text-black"
-                >
-                    View Details
-                </Link>
-            ),
-        },
-    ];
-
     return (
         <div className="bg-gray-200">
             <div className="container mx-auto py-16">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                    {/* Filters Section */}
                     <Form
                         form={form}
                         onFinish={handleFilter}
@@ -250,12 +181,49 @@ const CarList = () => {
                             </Button>
                         </div>
                     </Form>
-                    <Table
-                        dataSource={tableData}
-                        columns={columns}
-                        loading={isFetching}
-                        className="col-span-4 "
-                    />
+
+                    {/* Cards Section */}
+                    <div className="col-span-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {filteredCars?.map((car) => (
+                            <div
+                                key={car._id}
+                                className="relative from-amber-200 to-amber-50 bg-gradient-to-b shadow-lg rounded-xl p-4 transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl hover:scale-105 group"
+                            >
+                                {/* Hover Overlay for full card and image */}
+                                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl z-10 flex items-center justify-center">
+                                    <Link
+                                        to={`/car-details/${car._id}`}
+                                        className=" bg-white hover:text-black uppercase font-semibold text-center rounded-xl px-4 py-2  block  text-black border-2 border-transparent hover:border-black transition-all duration-300"
+                                    >
+                                        View Details
+                                    </Link>
+                                </div>
+
+                                <div className="relative z-0">
+                                    <div className="relative">
+                                        <img
+                                            src={car.image}
+                                            alt={car.name}
+                                            className="h-48 w-full rounded-xl object-cover mb-4 transform transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                    </div>
+                                    <h2 className="text-lg font-semibold mb-2">
+                                        Brand: {car.name}
+                                    </h2>
+                                    <p className="text-gray-500 mb-2">
+                                        Price: ${car.pricePerHour} per hour
+                                    </p>
+                                    <p className="text-gray-600 mb-4">
+                                        Description:{" "}
+                                        {car.description.slice(0, 50)}...
+                                    </p>
+                                    <p className="text-gray-600 mb-4">
+                                        Status: {car.status}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

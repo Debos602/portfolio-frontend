@@ -16,7 +16,36 @@ const authApi = baseApi.injectEndpoints({
                 body: userInfo,
             }),
         }),
+        getAdmin: builder.query({
+            query: (data) => ({
+                url: "/api/auth/admin",
+                method: "GET",
+                body: data,
+            }),
+            providesTags: ["Admin"],
+        }),
+        getUser: builder.query({
+            query: (userInfo) => ({
+                url: "/api/auth/user",
+                method: "GET",
+                body: userInfo,
+            }),
+            providesTags: ["User"],
+        }),
+        updateUser: builder.mutation({
+            query: (data) => ({
+                url: "/api/auth/update-user",
+                method: "PUT",
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useLoginMutation, useSignupMutation } = authApi;
+export const {
+    useLoginMutation,
+    useSignupMutation,
+    useUpdateUserMutation,
+    useGetUserQuery,
+    useGetAdminQuery,
+} = authApi;
