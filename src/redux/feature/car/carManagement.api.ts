@@ -15,6 +15,7 @@ const carManagementApi = baseApi.injectEndpoints({
                 method: "GET",
                 params,
             }),
+            providesTags: ["Car"],
         }),
         getCarById: builder.query({
             query: (id) => ({
@@ -28,12 +29,38 @@ const carManagementApi = baseApi.injectEndpoints({
                 method: "GET",
                 params,
             }),
+            providesTags: ["Car"],
+        }),
+        updateCar: builder.mutation({
+            query: (car) => ({
+                url: `/api/cars/update`, // Ensure data includes _id
+                method: "PATCH",
+                body: car,
+            }),
+            invalidatesTags: ["Car"], // Invalidate cached data after update
+        }),
+        deleteCar: builder.mutation({
+            query: (id) => ({
+                url: `/api/cars/${id}`,
+                method: "DELETE",
+            }),
+        }),
+        returnCar: builder.mutation({
+            query: (data) => ({
+                url: `api/cars/return`,
+                method: "PUT",
+                body: data,
+            }),
         }),
     }),
 });
+
 export const {
     useGetAllCarsQuery,
     useGetCarByIdQuery,
     useGetAvailableCarsQuery,
     useCreateCarMutation,
+    useUpdateCarMutation,
+    useDeleteCarMutation,
+    useReturnCarMutation,
 } = carManagementApi;

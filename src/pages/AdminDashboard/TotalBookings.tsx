@@ -2,6 +2,19 @@ import { useEffect, useState } from "react";
 import { useGetAllBookingsQuery } from "@/redux/feature/booking/bookingApi";
 import { Spin, Table } from "antd";
 
+type Booking = {
+    _id: string;
+    user: {
+        email: string;
+        name: string;
+    };
+    car: {
+        name: string;
+    };
+    date: string;
+    totalCost: number;
+};
+
 const TotalBookings = () => {
     const { data: bookingsData, isLoading } = useGetAllBookingsQuery(
         undefined,
@@ -25,7 +38,9 @@ const TotalBookings = () => {
     console.log("Bookings data:", bookingsData);
 
     // Assuming `bookingsData.data` contains the array of bookings
-    const bookings = Array.isArray(bookingsData?.data) ? bookingsData.data : [];
+    const bookings: Booking[] = Array.isArray(bookingsData?.data)
+        ? bookingsData.data
+        : [];
 
     // Define table columns
     const columns = [
@@ -63,11 +78,15 @@ const TotalBookings = () => {
 
     return (
         <div>
+            <h1 className="text-3xl font-bold mb-4">
+                Total Bookings
+                {bookings.length > 0 ? ` (${bookings.length})` : ""}
+            </h1>
             {bookings.length > 0 ? (
                 <Table
                     columns={columns}
                     dataSource={bookings}
-                    // rowKey={(record) => record._id || record._id} // Adjust to match actual key (e.g., `id` or `_id`)
+                    rowKey={(record) => record._id} // Use _id as the unique key
                 />
             ) : (
                 <p>No bookings available</p>

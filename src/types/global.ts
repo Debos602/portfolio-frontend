@@ -6,10 +6,10 @@ export interface TCar {
     description: string;
     color: string;
     status: "available" | "unavailable";
-    // Add the new fields for car availability and location
     location?: string; // Assuming location is optional
     availableFrom?: string; // Assuming date as a string, adjust to Dayjs if needed
     availableUntil?: string;
+    [key: string]: string | number | boolean | undefined; // Specify allowed types
 }
 
 export type TUser = {
@@ -25,24 +25,24 @@ export type TUser = {
     createdAt?: Date;
     updatedAt?: Date;
 };
-// types/booking.ts
 
 export interface TBooking {
     _id: string;
-    id: string; // Assuming the booking ID is a string
-    user: TUser;
-    car: TCar;
+    userId: string; // Using a separate user ID for clarity
+    carId: string; // Using a separate car ID for clarity
     startTime: string; // ISO date string or timestamp
     endTime: string; // ISO date string or timestamp
     totalCost: number; // Total cost as a number
-    status: "approved" | "pending" | "canceled"; // Possible statuses
+    status: "approved" | "pending" | "canceled" | "completed"; // Possible statuses
 }
+
 export interface Bookings {
     _id: string;
     date: string;
     startTime: string;
     endTime: string | null;
     totalCost: number;
+    transactionId: string;
     user: {
         _id: string;
         name: string;
@@ -60,4 +60,13 @@ export interface Bookings {
         features: string[];
         pricePerHour: number;
     };
+    status: "approved" | "pending" | "canceled" | "completed";
+}
+export interface TOrder {
+    carName: string; // Assuming carName could be null if booking is not found
+    date: Date; // Assuming date is a Date object
+    startTime: string; // Assuming startTime is a string (could also be a Date)
+    endTime: string; // Assuming endTime is a string (could also be a Date)
+    totalCost: number; // Total cost should be a number
+    transactionId: string; // Assuming transactionId is a string
 }

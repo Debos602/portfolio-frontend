@@ -15,7 +15,7 @@ type ExtraOption = "insurance" | "gps" | "childSeat";
 
 const CarDetails = () => {
     const { id } = useParams();
-    const { data: car, isLoading, error, refetch } = useGetCarByIdQuery(id);
+    const { data: car, isLoading, error } = useGetCarByIdQuery(id);
     const [createBooking] = useCreateBookingMutation();
     const navigate = useNavigate();
 
@@ -35,6 +35,7 @@ const CarDetails = () => {
             hour: "2-digit",
             minute: "2-digit",
         });
+        console.log(startTime);
         const bookingData = {
             carId: car._id, // Use car ID
             date: new Date().toISOString(),
@@ -45,7 +46,6 @@ const CarDetails = () => {
             await createBooking(bookingData).unwrap(); // Call the booking API
             toast.success("Booking created successfully"); // Redirect to the booking page
             navigate("/booking", { replace: true });
-            refetch();
         } catch (error) {
             console.error("Failed to create booking:", error);
         }
@@ -93,7 +93,7 @@ const CarDetails = () => {
                             <img
                                 src={image}
                                 alt={name}
-                                className=" object-cover rounded-xl"
+                                className="w-full h-full object-cover rounded-xl"
                             />
                         </Zoom>
                     </div>
@@ -112,14 +112,14 @@ const CarDetails = () => {
                             <span className="font-semibold">Status:</span>{" "}
                             {status}
                         </p>
-                        <p>
-                            Ratings:{" "}
+                        <div>
+                            <span className="font-semibold">Ratings: </span>
                             <Rate
                                 className="text-yellow-900"
                                 defaultValue={rating}
                             />
-                        </p>
-                        <div className="mt-4">
+                        </div>
+                        <div>
                             <h3 className="font-semibold">Features:</h3>
                             <ul className="list-disc list-inside">
                                 {features.length > 0 ? (
@@ -129,7 +129,7 @@ const CarDetails = () => {
                                         )
                                     )
                                 ) : (
-                                    <p>No additional features available.</p>
+                                    <li>No additional features available.</li>
                                 )}
                             </ul>
                         </div>
@@ -171,6 +171,7 @@ const CarDetails = () => {
                             </div>
                         </div>
 
+                        {/* Book Now Link */}
                         <Link
                             onClick={(e) => {
                                 if (status === "unavailable") {

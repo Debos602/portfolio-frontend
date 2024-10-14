@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import {
     BookOutlined,
     DownOutlined,
+    FundOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     MoneyCollectOutlined,
     UserOutlined,
+    UserSwitchOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, Layout, Menu, Space, theme } from "antd";
 import { Link, useNavigate, Outlet } from "react-router-dom";
@@ -48,14 +50,29 @@ const AdminDashboard: React.FC = () => {
         {
             key: "3",
             icon: <MoneyCollectOutlined />,
-            label: "Manage payment",
+            label: <Link to="manage-booking">Manage booking</Link>,
+        },
+        {
+            key: "4",
+            icon: <FundOutlined />,
+            label: <Link to="manage-return-car">Manage return car</Link>,
+        },
+        {
+            key: "5",
+            icon: <UserSwitchOutlined />,
+            label: <Link to="user-management">User Management</Link>,
         },
     ];
 
     return (
         <Layout>
-            <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div>
+            <Sider
+                trigger={null}
+                collapsible
+                collapsed={collapsed}
+                className="bg-white"
+            >
+                <div className="sticky top-0 z-30">
                     <img
                         src={logo}
                         className="h-24 w-full object-cover"
@@ -69,7 +86,7 @@ const AdminDashboard: React.FC = () => {
                 />
             </Sider>
             <Layout>
-                <Header className="flex justify-between bg-white">
+                <Header className="flex justify-between bg-white h-24 sticky top-0 z-30">
                     <Button
                         type="text"
                         icon={
@@ -137,14 +154,11 @@ const AdminDashboard: React.FC = () => {
                 </Header>
                 <Content
                     style={{
-                        margin: "24px 16px",
-                        padding: 24,
-                        minHeight: 280,
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    <Outlet /> {/* This renders the current route's content */}
+                    <Outlet />
                 </Content>
             </Layout>
         </Layout>

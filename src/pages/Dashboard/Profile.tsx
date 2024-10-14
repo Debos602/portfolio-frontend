@@ -1,11 +1,13 @@
-import { Avatar, Card, List, Button, Form, Input, Spin } from "antd";
-import { Bookings, TUser } from "@/types/global";
+import { Avatar, Card, Button, Form, Input, Spin, Table } from "antd";
+import { Bookings, TOrder, TUser } from "@/types/global";
 import {
     useGetUserQuery,
     useUpdateUserMutation,
 } from "@/redux/feature/authApi";
 import { toast } from "sonner";
 import { useGetBookingsQuery } from "@/redux/feature/booking/bookingApi";
+import { Link } from "react-router-dom";
+import { useCreateOrderMutation } from "@/redux/feature/order/orderApi";
 
 // Define the type for a single booking
 
@@ -27,6 +29,10 @@ const Profile = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     });
+
+    // console.log("Bookings:", bookings);
+
+    const [createOrder] = useCreateOrderMutation();
 
     // Handle loading state
     if (isLoading) {
@@ -55,7 +61,15 @@ const Profile = () => {
         startTime: booking?.startTime,
         endTime: booking?.endTime,
         totalCost: booking?.totalCost,
+        transactionId: booking?.transactionId,
     }));
+
+    // Calculate total cost of all bookings
+    const totalCost = bookingHistory?.reduce(
+        (acc: number, booking: { totalCost: number }) =>
+            acc + booking.totalCost,
+        0
+    );
 
     const handleUpdateProfile = async (values: TUser) => {
         try {
@@ -68,10 +82,68 @@ const Profile = () => {
         }
     };
 
+    const handleCreateOrder = () => {
+        const bookingHistory = bookings?.data?.map((booking: Bookings) => ({
+            carName: booking?.car?.name,
+            date: booking?.date,
+            startTime: booking?.startTime,
+            endTime: booking?.endTime,
+            totalCost: booking?.totalCost,
+            transactionId: booking?.transactionId,
+            name: booking?.user?.name, // Add user details
+            email: booking?.user?.email,
+            phone: booking?.user?.phone,
+        }));
+
+        Promise.all(
+            bookingHistory.map(async (booking: TOrder) => {
+                try {
+                    const response = await createOrder(booking);
+                    console.log("Order created response:", response);
+                } catch (error) {
+                    console.error("Error creating order:", error);
+                }
+            })
+        ).then(() => {
+            console.log("All orders processed");
+            refetch(); // Refetch data after all orders are created
+        });
+    };
+
+    const columns = [
+        {
+            title: "Car Name",
+            dataIndex: "carName",
+            key: "carName",
+        },
+        {
+            title: "Date",
+            dataIndex: "date",
+            key: "date",
+        },
+        {
+            title: "Start Time",
+            dataIndex: "startTime",
+            key: "startTime",
+        },
+        {
+            title: "End Time",
+            dataIndex: "endTime",
+            key: "endTime",
+            render: (endTime: string | null) => (endTime ? endTime : "Ongoing"),
+        },
+        {
+            title: "Total Cost",
+            dataIndex: "totalCost",
+            key: "totalCost",
+            render: (totalCost: number) => `$${totalCost.toFixed(2)}`,
+        },
+    ];
+
     return (
         <div>
             {/* Profile Banner */}
-            <Card className="mb-8">
+            <Card className="mb-8 text-center">
                 <Avatar
                     size={120}
                     src="https://randomuser.me/api/portraits/women/44.jpg"
@@ -95,40 +167,12 @@ const Profile = () => {
             </Card>
 
             {/* Booking History */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <Card className="mb-8">
-                    <h2 className="text-xl font-semibold">Booking History</h2>
-                    <List
-                        dataSource={bookingHistory}
-                        renderItem={(item: {
-                            carName: string;
-                            date: string;
-                            startTime: string;
-                            endTime: string | null;
-                            totalCost: number;
-                        }) => (
-                            <List.Item>
-                                <List.Item.Meta
-                                    title={item?.carName}
-                                    description={`Date: ${
-                                        item?.date
-                                    }, Start Time: ${
-                                        item?.startTime
-                                    }, End Time: ${
-                                        item?.endTime || "Ongoing"
-                                    }, Total Cost: $${item.totalCost}`}
-                                />
-                            </List.Item>
-                        )}
-                    />
-                </Card>
-
-                {/* Update Profile */}
-                <Card>
-                    <h2 className="text-xl font-semibold mb-4">
-                        Update Profile
+            <div className="grid grid-cols-1 gap-8">
+                <Card className="w-2/3 mx-auto">
+                    <h2 className="text-xl font-semibold mb-4 text-center">
+                        User Information
                     </h2>
-                    <Form layout="vertical" onFinish={handleUpdateProfile}>
+                    <Form layout="horizontal" onFinish={handleUpdateProfile}>
                         <Form.Item label="Name" name="name" initialValue={name}>
                             <Input />
                         </Form.Item>
@@ -146,13 +190,42 @@ const Profile = () => {
                         >
                             <Input />
                         </Form.Item>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit">
+                        <Form.Item className="text-center">
+                            <Button
+                                className="bg-gray-700 text-white w-full"
+                                htmlType="submit"
+                            >
                                 Update Profile
                             </Button>
                         </Form.Item>
                     </Form>
                 </Card>
+                <Card className="text-center ">
+                    <h2 className="text-xl font-semibold text-center">
+                        Booking Summary
+                    </h2>
+                    <Table
+                        dataSource={bookingHistory}
+                        columns={columns}
+                        rowKey="carName" // Use a unique key, assuming carName is unique
+                        pagination={false} // Disable pagination if not needed
+                    />
+                    {/* Display Total Cost */}
+                    <p className="mt-4 text-lg font-semibold">
+                        Total Cost: ${totalCost?.toFixed(2)}
+                    </p>
+
+                    <Link
+                        className="bg-gray-700 text-white w-full hover:bg-white border-2 border-black rounded-xl px-4 py-2 hover:text-black uppercase font-semibold duration-500 transition"
+                        to=""
+                        onClick={handleCreateOrder}
+                    >
+                        {" "}
+                        Proceed to Payment
+                    </Link>
+                </Card>
+
+                {/* Update Profile */}
             </div>
         </div>
     );

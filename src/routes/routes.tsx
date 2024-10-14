@@ -11,9 +11,12 @@ import ErrorPage from "@/layout/ErrorPage";
 import Profile from "@/pages/Dashboard/Profile";
 import Custombooking from "@/pages/Custombooking";
 import DashBoardOverview from "@/pages/AdminDashboard/DashBoardOverview";
-
 import ManageCar from "@/pages/AdminDashboard/ManageCar";
 import AdminDashboard from "@/pages/Dashboard/AdminDashboard";
+import ManageBooking from "@/pages/AdminDashboard/ManageBooking";
+import ManageReturnCars from "@/pages/AdminDashboard/ManageReturnCars";
+import UserManagement from "@/pages/AdminDashboard/UserManagement";
+import ManagePayment from "@/pages/Dashboard/ManagePayment";
 
 const router = createBrowserRouter([
     {
@@ -60,6 +63,10 @@ const router = createBrowserRouter([
                 path: "booking",
                 element: <Custombooking />,
             },
+            {
+                path: "payment",
+                element: <ManagePayment />,
+            },
         ],
     },
     {
@@ -82,6 +89,18 @@ const router = createBrowserRouter([
             {
                 path: "manage-car",
                 element: <ManageCar />,
+            },
+            {
+                path: "manage-booking",
+                element: <ManageBooking />,
+            },
+            {
+                path: "manage-return-car",
+                element: <ManageReturnCars />,
+            },
+            {
+                path: "user-management",
+                element: <UserManagement />,
             },
         ],
     },

@@ -24,7 +24,6 @@ const Login: React.FC = () => {
 
         try {
             const response = await userLogin(data).unwrap();
-            console.log("API Response:", response); // Log the entire response for debugging
 
             const { data: user, token } = response;
 

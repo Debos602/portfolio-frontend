@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGetAllCarsQuery } from "@/redux/feature/car/carManagement.api";
 import { TCar } from "@/types/global";
-import { Select, Button, Form, Input } from "antd";
+import { Select, Button, Form, Input, Space } from "antd";
 import { Link, useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
@@ -17,7 +17,10 @@ interface IFilterValues {
 }
 
 const CarList = () => {
-    const { data: cars } = useGetAllCarsQuery(undefined);
+    const { data: cars } = useGetAllCarsQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+        refetchOnFocus: true,
+    });
     console.log(cars);
     const [filteredCars, setFilteredCars] = useState<TCar[] | undefined>(
         cars?.data
@@ -152,7 +155,7 @@ const CarList = () => {
 
                         {/* Price Range */}
                         <Form.Item name="pricePerHour" label="Price Range">
-                            <Input.Group compact>
+                            <Space.Compact>
                                 <Form.Item name={["pricePerHour", 0]} noStyle>
                                     <Input
                                         placeholder="Min"
@@ -163,10 +166,10 @@ const CarList = () => {
                                 <Form.Item name={["pricePerHour", 1]} noStyle>
                                     <Input placeholder="Max" min={0} />
                                 </Form.Item>
-                            </Input.Group>
+                            </Space.Compact>
                         </Form.Item>
 
-                        <div className="md:flex  items-center">
+                        <div className="md:flex items-center">
                             <Button
                                 htmlType="submit"
                                 className="bg-black text-white border-2 border-black hover:bg-white hover:text-black mr-2"
@@ -193,7 +196,7 @@ const CarList = () => {
                                 <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl z-10 flex items-center justify-center">
                                     <Link
                                         to={`/car-details/${car._id}`}
-                                        className=" bg-white hover:text-black uppercase font-semibold text-center rounded-xl px-4 py-2  block  text-black border-2 border-transparent hover:border-black transition-all duration-300"
+                                        className="bg-white hover:text-black uppercase font-semibold text-center rounded-xl px-4 py-2 block text-black border-2 border-transparent hover:border-black transition-all duration-300"
                                     >
                                         View Details
                                     </Link>

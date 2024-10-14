@@ -1,15 +1,11 @@
-import CustomSection from "@/components/CustomSection";
-import image from "../assets/about.png";
+import BookingSearch from "@/components/BookingSearch";
 import Custombooking from "./Custombooking";
 
 const Booking = () => {
     return (
         <div>
-            <CustomSection
-                image={image}
-                title="Home/Bookings"
-                paragraph="Learn more about our company, our team, and our commitment to excellence."
-            />
+            {/* Pass correct props to CustomSection2 */}
+            <BookingSearch />
             <Custombooking />
         </div>
     );

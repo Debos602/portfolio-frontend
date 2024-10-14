@@ -16,6 +16,13 @@ const authApi = baseApi.injectEndpoints({
                 body: userInfo,
             }),
         }),
+        getAllUsers: builder.query({
+            query: () => ({
+                url: "/api/auth/all-users",
+                method: "GET",
+            }),
+        }),
+
         getAdmin: builder.query({
             query: (data) => ({
                 url: "/api/auth/admin",
@@ -39,6 +46,13 @@ const authApi = baseApi.injectEndpoints({
                 body: data,
             }),
         }),
+        updateUserRole: builder.mutation({
+            query: (user) => ({
+                url: `/api/auth/update-role/${user.userId}`,
+                method: "PUT",
+                body: user,
+            }),
+        }),
     }),
 });
 
@@ -48,4 +62,6 @@ export const {
     useUpdateUserMutation,
     useGetUserQuery,
     useGetAdminQuery,
+    useGetAllUsersQuery,
+    useUpdateUserRoleMutation,
 } = authApi;

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import {
     BookOutlined,
+    DashboardOutlined,
     DownOutlined,
+    LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     MoneyCollectOutlined,
+    RollbackOutlined,
     UserOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, Layout, Menu, Space, theme } from "antd";
@@ -48,14 +51,19 @@ const Dashboard: React.FC = () => {
         {
             key: "3",
             icon: <MoneyCollectOutlined />,
-            label: "Manage payment",
+            label: <Link to="/dashboard/payment">Payment Management</Link>,
         },
     ];
 
     return (
         <Layout>
-            <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div>
+            <Sider
+                trigger={null}
+                collapsible
+                collapsed={collapsed}
+                className="bg-white"
+            >
+                <div className="sticky top-0 z-30">
                     <img
                         src={logo}
                         className="h-24 w-full object-cover"
@@ -69,7 +77,7 @@ const Dashboard: React.FC = () => {
                 />
             </Sider>
             <Layout>
-                <Header className="flex justify-between bg-white">
+                <Header className="flex justify-between bg-white h-24 sticky top-0  z-10 ">
                     <Button
                         type="text"
                         icon={
@@ -90,6 +98,7 @@ const Dashboard: React.FC = () => {
                                         {
                                             label: (
                                                 <Link to="/dashboard">
+                                                    <DashboardOutlined className="pr-2" />
                                                     Dashboard
                                                 </Link>
                                             ),
@@ -98,7 +107,8 @@ const Dashboard: React.FC = () => {
                                         {
                                             label: (
                                                 <Link to="/">
-                                                    Return home page
+                                                    <RollbackOutlined className="pr-2" />
+                                                    Home page
                                                 </Link>
                                             ),
                                             key: "2",
@@ -109,6 +119,7 @@ const Dashboard: React.FC = () => {
                                                     onClick={handleLogout}
                                                     to="/login"
                                                 >
+                                                    <LogoutOutlined className="pr-2" />
                                                     Logout
                                                 </Link>
                                             ),
@@ -137,9 +148,6 @@ const Dashboard: React.FC = () => {
                 </Header>
                 <Content
                     style={{
-                        margin: "24px 16px",
-                        padding: 24,
-                        minHeight: 280,
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
                     }}

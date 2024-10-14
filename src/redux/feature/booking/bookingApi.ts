@@ -17,8 +17,20 @@ const bookingApi = baseApi.injectEndpoints({
             query: () => ({ url: "/api/bookings", method: "GET" }),
         }),
 
+        updateBooking: build.mutation({
+            query: (data) => ({
+                url: `/api/bookings/${data._id}`, // Ensure data._id exists
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ["Booking"], // Invalidate cache if needed
+        }),
+
         deleteBooking: build.mutation({
-            query: (id) => ({ url: `/api/bookings/${id}`, method: "DELETE" }),
+            query: (id) => ({
+                url: `/api/bookings/${id}`,
+                method: "DELETE",
+            }),
         }),
     }),
 });
@@ -27,4 +39,5 @@ export const {
     useGetBookingsQuery,
     useDeleteBookingMutation,
     useGetAllBookingsQuery,
+    useUpdateBookingMutation,
 } = bookingApi;

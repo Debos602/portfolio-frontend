@@ -6,12 +6,8 @@ const Managetabs = [
         value: "add",
     },
     {
-        name: "Update Car",
-        value: "update",
-    },
-    {
-        name: "Delete Car",
-        value: "delete",
+        name: "Update delete car",
+        value: "update-and-delete",
     },
 ];
 
@@ -24,7 +20,7 @@ export default function ManageTabs({
     setActiveTab,
 }: ProfileTabsProps) {
     return (
-        <div className="rounded-lg p-2 w-full flex xs:gap-2 sm:gap-4 overflow-x-auto border">
+        <div className="rounded-xl p-2 w-full flex xs:gap-2 sm:gap-4 overflow-x-auto border">
             {Managetabs.map((tab) => (
                 <Button
                     key={tab.value}

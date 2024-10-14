@@ -2,11 +2,20 @@ import {
     useDeleteBookingMutation,
     useGetBookingsQuery,
 } from "@/redux/feature/booking/bookingApi";
-import { TBooking } from "@/types/global";
+import { Bookings } from "@/types/global";
 import { Button, Spin, Table, Modal, message } from "antd";
 import { useState } from "react";
 
+interface ApiError {
+    data?: {
+        message: string;
+    };
+    status?: number;
+}
+
 const Custombooking = () => {
+    // State to track whether to hit the booking API or not
+
     const {
         data: bookings,
         isLoading,
@@ -15,6 +24,7 @@ const Custombooking = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     });
+
     const [deleteBooking, { isLoading: isDeleting }] =
         useDeleteBookingMutation();
     const [modalVisible, setModalVisible] = useState(false);
@@ -35,19 +45,36 @@ const Custombooking = () => {
             message.success("Booking cancelled successfully!");
             refetch();
         } catch (error) {
-            message.error("Failed to cancel the booking.");
+            const apiError = error as ApiError;
+            const errorMessage =
+                apiError.data?.message || "Failed to cancel the booking.";
+            message.error(errorMessage);
         } finally {
             setModalVisible(false);
             setSelectedBookingId(null);
         }
     };
 
+    if (isLoading) return <Spin size="large" />;
+
+    // Display message when no bookings are found
+    if (!isLoading && bookings?.data?.length === 0) {
+        return (
+            <div className="text-center">
+                <p className="text-gray-600">
+                    No bookings found. Please create a booking to see your list
+                    here.
+                </p>
+            </div>
+        );
+    }
+
     const columns = [
         {
             title: "Image",
             dataIndex: "image",
             key: "image",
-            render: (text: string, record: TBooking) => (
+            render: (text: string, record: Bookings) => (
                 <img
                     src={record?.car?.image}
                     className="h-24 w-48 object-cover rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
@@ -69,11 +96,6 @@ const Custombooking = () => {
             title: "Start Time",
             dataIndex: "startTime",
             key: "startTime",
-            render: (startTime: string) => (
-                <span className="text-gray-600">
-                    {new Date(startTime).toLocaleString()}
-                </span>
-            ),
         },
         {
             title: "End Time",
@@ -91,34 +113,16 @@ const Custombooking = () => {
             key: "totalCost",
             render: (totalCost: number) => (
                 <span className="font-semibold text-green-600">
-                    ${totalCost}
+                    ${totalCost.toFixed(2)}
                 </span>
             ),
         },
-        // {
-        //     title: "Status",
-        //     dataIndex: "status",
-        //     key: "status",
-        //     render: (status: string) => (
-        //         <span
-        //             className={`px-3 py-1 rounded-lg font-semibold shadow-md transition-all duration-300 ${
-        //                 status === "available"
-        //                     ? "bg-green-100 text-green-700"
-        //                     : status === "pending"
-        //                     ? "bg-yellow-100 text-yellow-700"
-        //                     : "bg-red-100 text-red-700"
-        //             }`}
-        //         >
-        //             {status}
-        //         </span>
-        //     ),
-        // },
         {
             title: "Actions",
             key: "actions",
-            render: (text: string, record: TBooking) => (
+            render: (text: string, record: Bookings) => (
                 <Button
-                    className={`border-2 text-black px-4 py-1 rounded-lg font-semibold transition-all duration-300 shadow-md ${
+                    className={`border-2 text-black px-4 py-1 rounded-lg font-semibold transition-all duration-300 ${
                         record.status === "approved"
                             ? "bg-gray-300 cursor-not-allowed border-gray-300"
                             : "bg-white border-black hover:bg-black hover:text-white"
@@ -133,22 +137,27 @@ const Custombooking = () => {
         },
     ];
 
-    if (isLoading) return <Spin size="large" />;
-
     return (
         <div className="container mx-auto p-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-all duration-500">
             <h2 className="text-3xl font-extrabold text-center mb-8 text-gray-900">
                 Manage Your Bookings
             </h2>
-            <Table
-                dataSource={bookings?.data}
-                columns={columns}
-                rowKey="_id"
-                className="hover:shadow-lg transition-all duration-300 bg-gray-50 rounded-lg"
-            />
+            {bookings?.data && bookings.data.length > 0 ? (
+                <Table
+                    dataSource={bookings.data}
+                    columns={columns}
+                    rowKey="_id"
+                    className="hover:shadow-lg transition-all duration-300 bg-gray-50 rounded-lg"
+                />
+            ) : (
+                <p className="text-center text-gray-600">
+                    No bookings found. Please create a booking to see your list
+                    here.
+                </p>
+            )}
             <Modal
                 title="Cancel Booking"
-                visible={modalVisible}
+                open={modalVisible}
                 onOk={handleCancelBooking}
                 onCancel={() => setModalVisible(false)}
                 confirmLoading={isDeleting}

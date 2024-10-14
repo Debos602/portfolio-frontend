@@ -13,7 +13,7 @@ const DashBoardOverview = () => {
                 Welecome to admin dashboard
             </h1>
             <OverviewTab activeTab={activeTab} setActiveTab={setActiveTab} />
-            <div className="mt-4">
+            <div className="my-4">
                 {activeTab === "bookings" && <TotalBookings />}
                 {activeTab === "cars" && <AvailableCar />}
                 {activeTab === "revenue" && <TotalRevenue />}

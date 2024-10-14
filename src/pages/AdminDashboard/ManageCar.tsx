@@ -1,6 +1,4 @@
 import { useState } from "react";
-
-import DeleteCar from "./DeleteCar";
 import UpdatesCar from "./UpdatesCar";
 import AddsCar from "./AddsCar";
 import ManageTabs from "./ManageTab";
@@ -15,8 +13,7 @@ const ManageCar = () => {
             <ManageTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className="mt-4">
                 {activeTab === "add" && <AddsCar />}
-                {activeTab === "update" && <UpdatesCar />}
-                {activeTab === "delete" && <DeleteCar />}
+                {activeTab === "update-and-delete" && <UpdatesCar />}
             </div>
         </div>
     );
