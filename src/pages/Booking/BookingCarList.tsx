@@ -76,7 +76,9 @@ const BookingCarList = ({ searchParams }: BookingCarListProps) => {
                             </div>
                         ))
                     ) : (
-                        <p>No cars found for the selected criteria.</p>
+                        <p className="text-lg font-semibold py-14">
+                            No cars found for the selected criteria.
+                        </p>
                     )}
                 </div>
             </div>

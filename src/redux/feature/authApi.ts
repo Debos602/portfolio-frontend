@@ -53,6 +53,23 @@ const authApi = baseApi.injectEndpoints({
                 body: user,
             }),
         }),
+        forgetPassword: builder.mutation({
+            query: (userId) => ({
+                url: "/api/auth/forget-password",
+                method: "POST",
+                body: userId,
+            }),
+        }),
+        resetPassword: builder.mutation({
+            query: ({ payload, token }) => ({
+                url: "/api/auth/reset-password",
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: payload,
+            }),
+        }),
     }),
 });
 
@@ -64,4 +81,6 @@ export const {
     useGetAdminQuery,
     useGetAllUsersQuery,
     useUpdateUserRoleMutation,
+    useForgetPasswordMutation,
+    useResetPasswordMutation,
 } = authApi;

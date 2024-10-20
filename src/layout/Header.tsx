@@ -14,7 +14,7 @@ import {
     UserOutlined,
     YoutubeOutlined,
 } from "@ant-design/icons";
-import { Avatar, Dropdown, Menu, MenuProps, Space } from "antd";
+import { Avatar, Dropdown, Menu, MenuProps, Space, Switch } from "antd";
 import logo from "../assets/car-lgo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "@/redux/hook";
@@ -30,6 +30,9 @@ const Header = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+    const [theme, setTheme] = useState(
+        localStorage.getItem("theme") || "light"
+    );
 
     const handleLogout = (e: React.FormEvent) => {
         e.preventDefault();
@@ -51,6 +54,15 @@ const Header = () => {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
+    // Save theme to localStorage and apply it to document body
+    useEffect(() => {
+        document.body.className = theme;
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    const toggleTheme = (checked: boolean) => {
+        setTheme(checked ? "dark" : "light");
+    };
 
     const menuItems = navPaths.map((navItem, index) => ({
         key: index,
@@ -111,7 +123,13 @@ const Header = () => {
 
     return (
         <div>
-            <div className="fixed top-0 w-full z-50">
+            <div
+                className="fixed top-0 w-full z-50"
+                style={{
+                    backgroundColor: "var(--bg-color)",
+                    color: "var(--text-color)",
+                }}
+            >
                 <div className="container mx-auto flex justify-around items-center py-1 bg-gray-800">
                     <div className="flex text-white opacity-80 w-full">
                         <div className="text-md font-medium text-white">
@@ -125,7 +143,15 @@ const Header = () => {
                             </span>
                         </div>
                     </div>
-                    <div className="flex">
+                    <div className="flex items-center">
+                        <Switch
+                            checked={theme === "dark"}
+                            onChange={toggleTheme}
+                            checkedChildren="Dark"
+                            unCheckedChildren="Light"
+                            className="mr-4"
+                            autoFocus
+                        />
                         <FacebookOutlined className="mr-2 bg-amber-400 p-2 text-sm rounded-full" />
                         <YoutubeOutlined className="mr-2 bg-amber-400 p-2 text-sm rounded-full" />
                         <TwitterOutlined className="bg-amber-400 p-2 text-sm rounded-full" />
@@ -146,7 +172,10 @@ const Header = () => {
                     </div>
                     {user?.role === "admin" || user?.role === "user" ? (
                         <div className="flex items-center justify-center">
-                            <Dropdown menu={{ items }}>
+                            <Dropdown
+                                menu={{ items }}
+                                className="text-lg text-gray-950 font-bold"
+                            >
                                 <a onClick={(e) => e.preventDefault()}>
                                     <Space>
                                         <Avatar
@@ -157,7 +186,7 @@ const Header = () => {
                                     </Space>
                                 </a>
                             </Dropdown>
-                            <div className="ml-2">
+                            <div className="ml-2 mt-3">
                                 <p className="text-lg font-bold uppercase">
                                     {user?.name}
                                 </p>
@@ -180,7 +209,7 @@ const Header = () => {
                             </div>
                             {open && (
                                 <Menu
-                                    className="lg:hidden w-full absolute right-0 top-[137px] border-2 justify-end items-center font-sans text-xl font-bold bg-white"
+                                    className="lg:hidden  text-gray-950 w-full absolute right-0 top-[137px] border-2 justify-end items-center font-sans text-2xl font-bold bg-white"
                                     mode="vertical"
                                     items={menuItems2}
                                 />

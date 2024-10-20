@@ -38,3 +38,15 @@
     content: "";
     border-bottom: 2px solid #f1eeee;
 }
+body.light {
+    --bg-color: white;
+}
+
+body.dark {
+    --bg-color: #d1cfcf;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}

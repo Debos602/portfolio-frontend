@@ -23,7 +23,6 @@ const SignUp: React.FC = () => {
 
     // Handle form submission
     const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
-        console.log("Form submitted", values);
         setLoading(true);
         try {
             // Attempt to sign up the user

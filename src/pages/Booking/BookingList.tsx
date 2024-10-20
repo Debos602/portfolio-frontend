@@ -152,10 +152,12 @@ const BookingList = () => {
                     className="hover:shadow-lg transition-all duration-300 bg-gray-50 rounded-lg"
                 />
             ) : (
-                <p className="text-center text-gray-600">
-                    No bookings found. Please create a booking to see your list
-                    here.
-                </p>
+                <div className="py-10">
+                    <p className="text-center text-gray-600">
+                        No bookings found. Please create a booking to see your
+                        list here.
+                    </p>
+                </div>
             )}
             <Modal
                 title="Cancel Booking"

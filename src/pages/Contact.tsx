@@ -1,7 +1,7 @@
 const Contact = () => {
     return (
         <div className="container mx-auto mt-[110px]">
-            <div className="flex flex-col items-center justify-center py-16 bg-gray-50 min-h-screen">
+            <div className="flex flex-col items-center justify-center py-16 min-h-screen">
                 <h2 className="text-5xl font-bold text-gray-800 mb-12">
                     Get In Touch
                 </h2>

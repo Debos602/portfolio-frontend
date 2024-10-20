@@ -18,6 +18,8 @@ import ManageReturnCars from "@/pages/AdminDashboard/ManageReturnCars";
 import UserManagement from "@/pages/AdminDashboard/UserManagement";
 import ManagePayment from "@/pages/Dashboard/ManagePayment";
 import BookingList from "@/pages/Booking/BookingList";
+import ForgetPassword from "@/pages/ForgetPassword";
+import ResetPassword from "@/pages/ResetPassword";
 
 const router = createBrowserRouter([
     {
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
                 element: <ErrorPage />,
             },
         ],
+    },
+    {
+        path: "/forgot-password",
+        element: <ForgetPassword />,
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword />,
     },
     {
         path: "/dashboard",
