@@ -13,7 +13,7 @@ interface ApiError {
     status?: number;
 }
 
-const Custombooking = () => {
+const BookingList = () => {
     // State to track whether to hit the booking API or not
 
     const {
@@ -182,4 +182,4 @@ const Custombooking = () => {
     );
 };
 
-export default Custombooking;
+export default BookingList;

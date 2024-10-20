@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import {
     BookOutlined,
+    DashboardOutlined,
     DownOutlined,
     FundOutlined,
+    LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     MoneyCollectOutlined,
+    RollbackOutlined,
     UserOutlined,
     UserSwitchOutlined,
 } from "@ant-design/icons";
@@ -107,6 +110,7 @@ const AdminDashboard: React.FC = () => {
                                         {
                                             label: (
                                                 <Link to="/admin-dashboard">
+                                                    <DashboardOutlined className="pr-2" />{" "}
                                                     Admin Dashboard
                                                 </Link>
                                             ),
@@ -115,7 +119,8 @@ const AdminDashboard: React.FC = () => {
                                         {
                                             label: (
                                                 <Link to="/">
-                                                    Return home page
+                                                    <RollbackOutlined className="pr-2" />
+                                                    Return Home
                                                 </Link>
                                             ),
                                             key: "2",
@@ -126,6 +131,7 @@ const AdminDashboard: React.FC = () => {
                                                     onClick={handleLogout}
                                                     to="/login"
                                                 >
+                                                    <LogoutOutlined className="pr-2" />
                                                     Logout
                                                 </Link>
                                             ),

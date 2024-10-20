@@ -45,7 +45,7 @@ const CarDetails = () => {
         try {
             await createBooking(bookingData).unwrap(); // Call the booking API
             toast.success("Booking created successfully"); // Redirect to the booking page
-            navigate("/booking", { replace: true });
+            navigate("/bookings", { replace: true });
         } catch (error) {
             console.error("Failed to create booking:", error);
         }
@@ -172,25 +172,33 @@ const CarDetails = () => {
                         </div>
 
                         {/* Book Now Link */}
-                        <Link
-                            onClick={(e) => {
-                                if (status === "unavailable") {
-                                    e.preventDefault(); // Prevent the link from navigating if the car is unavailable
-                                } else {
-                                    handleBookNow(car.data); // Proceed with booking if available
-                                }
-                            }}
-                            to={status === "available" ? `/booking` : "#"} // Prevent link navigation when unavailable
-                            className={`mt-6 inline-block text-white px-6 py-2 rounded-xl ${
-                                status === "unavailable"
-                                    ? "bg-gray-400 cursor-not-allowed"
-                                    : "bg-black hover:bg-gray-800"
-                            }`}
-                        >
-                            {status === "unavailable"
-                                ? "Unavailable"
-                                : "Book Now"}
-                        </Link>
+                        <div className="flex justify-between items-center">
+                            <Link
+                                onClick={(e) => {
+                                    if (status === "unavailable") {
+                                        e.preventDefault(); // Prevent the link from navigating if the car is unavailable
+                                    } else {
+                                        handleBookNow(car.data); // Prsoceed with booking if available
+                                    }
+                                }}
+                                to={status === "available" ? `/bookings` : "#"} // Prevent link navigation when unavailable
+                                className={`mt-6 inline-block text-white hover:bg-white border-2 border-black hover:text-black uppercase px-6 py-2 rounded-xl ${
+                                    status === "unavailable"
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-black hover:bg-gray-800"
+                                }`}
+                            >
+                                {status === "unavailable"
+                                    ? "Unavailable"
+                                    : "Book Now"}
+                            </Link>
+                            <Link
+                                to="/bookings"
+                                className="mt-6 rounded-xl bg-white hover:bg-black uppercase px-3 py-2 text-black hover:text-white border-2 border-black"
+                            >
+                                Cancel Booking
+                            </Link>
+                        </div>
                     </div>
                 </div>
 

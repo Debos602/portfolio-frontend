@@ -218,7 +218,11 @@ const CarList = () => {
                                     </p>
                                     <p className="text-gray-600 mb-4">
                                         Description:{" "}
-                                        {car.description.slice(0, 50)}...
+                                        {car.description
+                                            .split(" ")
+                                            .slice(0, 20)
+                                            .join(" ")}
+                                        ...
                                     </p>
                                     <p className="text-gray-600 mb-4">
                                         Status: {car.status}

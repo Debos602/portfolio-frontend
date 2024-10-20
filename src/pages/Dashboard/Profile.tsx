@@ -1,13 +1,11 @@
 import { Avatar, Card, Button, Form, Input, Spin, Table } from "antd";
-import { Bookings, TOrder, TUser } from "@/types/global";
+import { Bookings, TUser } from "@/types/global";
 import {
     useGetUserQuery,
     useUpdateUserMutation,
 } from "@/redux/feature/authApi";
 import { toast } from "sonner";
 import { useGetBookingsQuery } from "@/redux/feature/booking/bookingApi";
-import { Link } from "react-router-dom";
-import { useCreateOrderMutation } from "@/redux/feature/order/orderApi";
 
 // Define the type for a single booking
 
@@ -29,10 +27,6 @@ const Profile = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     });
-
-    // console.log("Bookings:", bookings);
-
-    const [createOrder] = useCreateOrderMutation();
 
     // Handle loading state
     if (isLoading) {
@@ -62,6 +56,7 @@ const Profile = () => {
         endTime: booking?.endTime,
         totalCost: booking?.totalCost,
         transactionId: booking?.transactionId,
+        paymentStatus: booking?.paymentStatus,
     }));
 
     // Calculate total cost of all bookings
@@ -80,34 +75,6 @@ const Profile = () => {
             console.error("Error updating profile:", error);
             toast.error("Failed to update profile");
         }
-    };
-
-    const handleCreateOrder = () => {
-        const bookingHistory = bookings?.data?.map((booking: Bookings) => ({
-            carName: booking?.car?.name,
-            date: booking?.date,
-            startTime: booking?.startTime,
-            endTime: booking?.endTime,
-            totalCost: booking?.totalCost,
-            transactionId: booking?.transactionId,
-            name: booking?.user?.name, // Add user details
-            email: booking?.user?.email,
-            phone: booking?.user?.phone,
-        }));
-
-        Promise.all(
-            bookingHistory.map(async (booking: TOrder) => {
-                try {
-                    const response = await createOrder(booking);
-                    console.log("Order created response:", response);
-                } catch (error) {
-                    console.error("Error creating order:", error);
-                }
-            })
-        ).then(() => {
-            console.log("All orders processed");
-            refetch(); // Refetch data after all orders are created
-        });
     };
 
     const columns = [
@@ -202,7 +169,7 @@ const Profile = () => {
                 </Card>
                 <Card className="text-center ">
                     <h2 className="text-xl font-semibold text-center">
-                        Booking Summary
+                        Booking History
                     </h2>
                     <Table
                         dataSource={bookingHistory}
@@ -214,15 +181,6 @@ const Profile = () => {
                     <p className="mt-4 text-lg font-semibold">
                         Total Cost: ${totalCost?.toFixed(2)}
                     </p>
-
-                    <Link
-                        className="bg-gray-700 text-white w-full hover:bg-white border-2 border-black rounded-xl px-4 py-2 hover:text-black uppercase font-semibold duration-500 transition"
-                        to=""
-                        onClick={handleCreateOrder}
-                    >
-                        {" "}
-                        Proceed to Payment
-                    </Link>
                 </Card>
 
                 {/* Update Profile */}

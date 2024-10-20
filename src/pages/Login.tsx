@@ -3,8 +3,8 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { FormProps } from "antd";
 import { useLoginMutation } from "@/redux/feature/authApi";
-import { useAppDispatch } from "@/redux/hook"; // Import the dispatch hook
-import { setUser } from "@/redux/feature/authSlice"; // Import setUser action
+import { useAppDispatch } from "@/redux/hook";
+import { setUser } from "@/redux/feature/authSlice";
 import { toast } from "sonner";
 
 type FieldType = {
@@ -14,32 +14,26 @@ type FieldType = {
 };
 
 const Login: React.FC = () => {
-    const [userLogin, { isLoading }] = useLoginMutation(); // Handle loading state
-    const dispatch = useAppDispatch(); // Initialize dispatch
+    const [userLogin, { isLoading }] = useLoginMutation();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { state } = useLocation();
+    const location = useLocation(); // capture the location
 
     const onFinish: FormProps<FieldType>["onFinish"] = async (data) => {
-        console.log("Form Data:", data); // Debugging form data
+        console.log("Form Data:", data);
 
         try {
             const response = await userLogin(data).unwrap();
-
             const { data: user, token } = response;
 
             if (user && token) {
                 dispatch(setUser({ user, token }));
                 toast.success("Login Successful");
 
-                if (user.role === "admin") {
-                    navigate(state?.pathname || "/admin-dashboard", {
-                        replace: true,
-                    });
-                } else {
-                    navigate(state?.pathname || "/dashboard", {
-                        replace: true,
-                    });
-                }
+                const redirectPath =
+                    location.state?.from?.pathname ||
+                    (user.role === "admin" ? "/admin-dashboard" : "/dashboard");
+                navigate(redirectPath, { replace: true });
             } else {
                 console.error("Unexpected response structure:", response);
                 toast.error("Invalid response from server.");
@@ -78,6 +72,10 @@ const Login: React.FC = () => {
                                 required: true,
                                 message: "Please input your email!",
                             },
+                            {
+                                type: "email",
+                                message: "The input is not valid E-mail!",
+                            },
                         ]}
                     >
                         <Input placeholder="Enter your email" />
@@ -103,11 +101,17 @@ const Login: React.FC = () => {
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
 
+                    <div className="text-right mb-4">
+                        <Link to="/forgot-password" className="text-blue-600">
+                            Forgot Password?
+                        </Link>
+                    </div>
+
                     <Form.Item>
                         <Button
                             htmlType="submit"
                             className="w-full py-5 bg-black text-white font-semibold text-xl"
-                            loading={isLoading} // Disable button when loading
+                            loading={isLoading}
                         >
                             Log in
                         </Button>
@@ -122,6 +126,16 @@ const Login: React.FC = () => {
                         </p>
                     </div>
                 </Form>
+
+                <div className="text-center mt-6">
+                    <Link to="/privacy-policy" className="text-gray-600">
+                        Privacy Policy
+                    </Link>{" "}
+                    |{" "}
+                    <Link to="/terms-of-service" className="text-gray-600">
+                        Terms of Service
+                    </Link>
+                </div>
             </div>
         </div>
     );

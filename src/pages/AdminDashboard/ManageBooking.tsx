@@ -155,7 +155,7 @@ const ManageBooking = () => {
 
     return (
         <div className="p-4 max-w-7xl mx-auto">
-            <h1 className="text-center bg-gradient-to-b from-amber-200 to-amber-50 py-8 text-4xl font-bold uppercase rounded-lg mb-6">
+            <h1 className="text-center from-amber-200 to-amber-50 bg-gradient-to-b  py-16 text-5xl font-normal uppercase rounded-xl">
                 Manage Bookings
             </h1>
 

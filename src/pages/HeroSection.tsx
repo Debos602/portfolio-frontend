@@ -7,9 +7,8 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { Button, DatePicker } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CustomArrowProps } from "react-slick";
-import Buttons from "@/components/Buttons";
 const { Option } = Select;
 
 // Custom Next Arrow
@@ -106,14 +105,14 @@ const HeroSection = () => {
             </Carousel>
 
             {/* Content Overlay */}
-            <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-white bg-black bg-opacity-30 w-[800px] h-[300px] mx-auto my-auto border-2 rounded-xl">
-                <h1 className="text-4xl font-bold mb-6">
+            <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-white bg-black bg-opacity-30 md:w-[800px] md:h-[300px] w-[500px] h-[300px] mx-auto my-auto border-2 rounded-xl">
+                <h1 className="text-3xl md:text-4xl font-bold my-3">
                     Find Your Perfect Ride
                 </h1>
 
                 {/* Search Bar */}
-                <div className="w-full max-w-2xl px-4 mb-6">
-                    <div className="bg-white rounded-xl p-6 shadow-lg md:flex items-center justify-between gap-4">
+                <div className="w-full max-w-2xl px-4 my-3">
+                    <div className="bg-white rounded-xl p-6 shadow-lg  md:flex items-center justify-between gap-4">
                         <Select
                             placeholder="Select your location"
                             size="large"
@@ -162,7 +161,12 @@ const HeroSection = () => {
                         </Button>
                     </div>
                 </div>
-                <Buttons to="/cars">Book</Buttons>
+                <Link
+                    className="bg-black md:mb-0 text-white px-8 py-2 rounded-2xl font-bold text-xl border-2 border-white hover:bg-white hover:text-black transition-all duration-700"
+                    to="/cars"
+                >
+                    Book
+                </Link>
             </div>
         </div>
     );

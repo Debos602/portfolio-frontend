@@ -1,30 +1,30 @@
 import ProtectedRoute from "@/layout/ProtectedRoute";
 import About from "@/pages/About/About";
 import Booking from "@/pages/Booking/Booking";
-
 import Car from "@/pages/car/Car";
 import Contact from "@/pages/Contact";
 
 import Home from "@/pages/Home/Home";
+import Login from "@/pages/Login";
 
-export const navPaths = [
+export const navPaths2 = [
     {
-        name: "Home",
+        name: <div className="ps-2">Home</div>,
         path: "/",
         element: <Home />,
     },
     {
-        name: "About",
+        name: <div className="ps-2">About</div>,
         path: "/about",
         element: <About />,
     },
     {
-        name: "Car-List",
+        name: <div className="ps-2">Car-List</div>,
         path: "/cars",
         element: <Car></Car>,
     },
     {
-        name: "Bookings",
+        name: <div className="ps-2">Bookings</div>,
         path: "/bookings",
         element: (
             <ProtectedRoute allowedRoles={["admin", "user"]}>
@@ -33,8 +33,13 @@ export const navPaths = [
         ),
     },
     {
-        name: "Contact",
+        name: <div className="ps-2">Contact</div>,
         path: "/contact",
         element: <Contact />,
+    },
+    {
+        name: <div className="ps-2">Login</div>,
+        path: "/login",
+        element: <Login />,
     },
 ];

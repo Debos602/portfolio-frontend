@@ -9,7 +9,25 @@ const OrderManagementApi = baseApi.injectEndpoints({
                 body: data,
             }),
         }),
+        getAllOrders: build.query({
+            query: () => ({
+                url: "/api/orders",
+                method: "GET",
+            }),
+        }),
+
+        updateOrder: build.mutation({
+            query: (data) => ({
+                url: `/api/orders/update`,
+                method: "PATCH",
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useCreateOrderMutation } = OrderManagementApi;
+export const {
+    useCreateOrderMutation,
+    useGetAllOrdersQuery,
+    useUpdateOrderMutation,
+} = OrderManagementApi;

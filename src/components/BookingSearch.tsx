@@ -1,13 +1,19 @@
 import { Button, DatePicker, Select } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Buttons from "./Buttons";
 import image from "../../src/assets/about.png";
+
 const { Option } = Select;
 
-const BookingSearch = () => {
+interface BookingSearchProps {
+    onSearch: (location: string, startDate: string, endDate: string) => void;
+}
+
+const BookingSearch: React.FC<BookingSearchProps> = ({ onSearch }) => {
     const [location, setLocation] = useState("");
+    const [startTime, setPickUpDate] = useState<Dayjs | null>(null);
+    const [endTime, setReturnDate] = useState<Dayjs | null>(null);
+
     const locations = [
         "Dhaka",
         "Chittagong",
@@ -19,35 +25,29 @@ const BookingSearch = () => {
         "Sylhet",
     ];
 
-    const handleChange = (value: string) => {
-        setLocation(value);
-    };
-    const [startTime, setPickUpDate] = useState<Dayjs | null>(null);
-    const [endTime, setReturnDate] = useState<Dayjs | null>(null);
-    const navigate = useNavigate();
     const handleSearch = () => {
         const startD = startTime ? startTime.format("YYYY-MM-DD") : "";
         const endD = endTime ? endTime.format("YYYY-MM-DD") : "";
-        navigate(
-            `/cars?location=${location}&startDate=${startD}&endDate=${endD}`
-        );
+        onSearch(location, startD, endD);
     };
+
     return (
         <div
             className="relative z-10 mt-[134px] h-[calc(100vh-134px)] bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: `url(${image})` }}
         >
-            <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-white bg-black bg-opacity-30 w-[800px] h-[300px] mx-auto my-auto border-2 rounded-xl">
-                <h1 className="text-4xl font-bold mb-6">Bookings</h1>
+            <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-white bg-black bg-opacity-30 md:w-[800px] md:h-[300px] w-[500px] h-[300px] mx-auto my-auto border-2 rounded-xl">
+                <h1 className="text-3xl md:text-4xl font-bold my-3">
+                    Bookings
+                </h1>
 
-                {/* Search Bar */}
                 <div className="w-full max-w-2xl px-4 mb-6">
                     <div className="bg-white rounded-xl p-6 shadow-lg md:flex items-center justify-between gap-4">
                         <Select
                             placeholder="Select your location"
                             size="large"
                             className="flex-grow"
-                            onChange={handleChange}
+                            onChange={setLocation}
                             value={location}
                             style={{ width: "100%" }}
                         >
@@ -91,7 +91,6 @@ const BookingSearch = () => {
                         </Button>
                     </div>
                 </div>
-                <Buttons to="/cars">Book Now</Buttons>
             </div>
         </div>
     );

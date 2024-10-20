@@ -40,11 +40,6 @@ const AvailableCar = () => {
             key: "name",
         },
         {
-            title: "Description",
-            dataIndex: "description",
-            key: "description",
-        },
-        {
             title: "Color",
             dataIndex: "color",
             key: "color",

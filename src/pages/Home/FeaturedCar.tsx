@@ -114,7 +114,10 @@ const FeaturedCars = () => {
                                             <Card.Meta
                                                 className="text-black text-md"
                                                 title={car.name}
-                                                description={`Description: ${car.description}`}
+                                                description={`Description: ${car.description.slice(
+                                                    0,
+                                                    50
+                                                )}...`}
                                             />
                                             <p className="text-lg font-semibold text-gray-700 mt-4">
                                                 Price per hour: $

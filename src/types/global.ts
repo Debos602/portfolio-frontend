@@ -34,6 +34,7 @@ export interface TBooking {
     endTime: string; // ISO date string or timestamp
     totalCost: number; // Total cost as a number
     status: "approved" | "pending" | "canceled" | "completed"; // Possible statuses
+    paymentStatus: string;
 }
 
 export interface Bookings {
@@ -61,6 +62,7 @@ export interface Bookings {
         pricePerHour: number;
     };
     status: "approved" | "pending" | "canceled" | "completed";
+    paymentStatus: string;
 }
 export interface TOrder {
     carName: string; // Assuming carName could be null if booking is not found
@@ -69,4 +71,5 @@ export interface TOrder {
     endTime: string; // Assuming endTime is a string (could also be a Date)
     totalCost: number; // Total cost should be a number
     transactionId: string; // Assuming transactionId is a string
+    paymentStatus: string; // Assuming payementStatus is a string
 }

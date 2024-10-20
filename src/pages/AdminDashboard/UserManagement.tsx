@@ -137,10 +137,9 @@ const UserManagement = () => {
 
     return (
         <div className="container mx-auto p-8">
-            <h1 className="text-center rounded-xl bg-gradient-to-b from-amber-200 to-amber-50 py-8 text-4xl font-bold uppercase mb-6 shadow-md">
+            <h1 className="text-center from-amber-200 to-amber-50 bg-gradient-to-b  py-16 text-5xl font-normal uppercase rounded-xl">
                 User Management
             </h1>
-
             <Card className="shadow-lg rounded-lg">
                 <Table
                     dataSource={users}

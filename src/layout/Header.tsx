@@ -1,10 +1,15 @@
 import Buttons from "@/components/Buttons";
 import { navPaths } from "@/routes/navRoutes";
 import {
+    BarsOutlined,
+    CloseCircleOutlined,
+    DashboardOutlined,
     DownOutlined,
     EnvironmentOutlined,
     FacebookOutlined,
+    LogoutOutlined,
     MailOutlined,
+    RollbackOutlined,
     TwitterOutlined,
     UserOutlined,
     YoutubeOutlined,
@@ -12,30 +17,57 @@ import {
 import { Avatar, Dropdown, Menu, MenuProps, Space } from "antd";
 import logo from "../assets/car-lgo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "@/redux/hook"; // Import dispatch hook
+import { useAppSelector, useAppDispatch } from "@/redux/hook";
 import { logout } from "@/redux/feature/authSlice";
 import { TUser } from "@/types/global";
 import { clearBookings } from "@/redux/feature/booking/bookingSlice";
+import { navPaths2 } from "@/routes/navRoutes2";
+import { useEffect, useState } from "react";
 
 const Header = () => {
     const user = useAppSelector((state) => state.auth.user as TUser | null);
-    // console.log("user", user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
 
     const handleLogout = (e: React.FormEvent) => {
-        e.preventDefault(); // Prevent default form submission behavior
-        // Dispatch logout action
+        e.preventDefault();
         dispatch(logout());
         dispatch(clearBookings());
-        // Redirect to login page
         navigate("/login");
     };
+
+    // Detect window resize and update state
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 1024);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const menuItems = navPaths.map((navItem, index) => ({
         key: index,
         label: (
-            <Link key={index} to={navItem.path} className="uppercase">
+            <Link to={navItem.path} className="uppercase">
+                {navItem.name}
+            </Link>
+        ),
+    }));
+
+    const menuItems2 = navPaths2.map((navItem, index) => ({
+        key: index,
+        label: (
+            <Link
+                to={navItem.path}
+                className="uppercase border-b-2 block border-solid border-blue-500 bg-border-bottom "
+            >
                 {navItem.name}
             </Link>
         ),
@@ -46,26 +78,30 @@ const Header = () => {
             label:
                 user?.role === "admin" ? (
                     <Link className="text-md font-medium" to="/admin-dashboard">
+                        <DashboardOutlined className="pr-2" />
                         Admin-dashboard
                     </Link>
                 ) : (
                     <Link className="text-md font-medium" to="/dashboard">
+                        <DashboardOutlined className="pr-2" />
                         Dashboard
                     </Link>
                 ),
             key: "1",
         },
         {
-            label: "2nd menu item",
+            label: (
+                <Link to="/">
+                    <RollbackOutlined className="pr-2" />
+                    Home page
+                </Link>
+            ),
             key: "2",
         },
         {
             label: (
-                <Link
-                    className="text-md font-medium"
-                    onClick={handleLogout}
-                    to="/login"
-                >
+                <Link onClick={handleLogout} to="/login">
+                    <LogoutOutlined className="pr-2" />
                     Logout
                 </Link>
             ),
@@ -74,45 +110,42 @@ const Header = () => {
     ];
 
     return (
-        <div className="">
+        <div>
             <div className="fixed top-0 w-full z-50">
                 <div className="container mx-auto flex justify-around items-center py-1 bg-gray-800">
                     <div className="flex text-white opacity-80 w-full">
                         <div className="text-md font-medium text-white">
-                            <MailOutlined className="" />
+                            <MailOutlined />
                             <span className="mx-2">Debos.das.02@gmail.com</span>
                         </div>
                         <div className="text-md font-medium text-white">
-                            <EnvironmentOutlined className="" />
+                            <EnvironmentOutlined />
                             <span className="ml-2">
                                 uttar patenga, katgor, chittagong, post-4000
                             </span>
                         </div>
                     </div>
                     <div className="flex">
-                        <FacebookOutlined className="mr-2 bg-amber-400 p-2 text-sm rounded-full" />{" "}
-                        <YoutubeOutlined className="mr-2 bg-amber-400 p-2 text-sm rounded-full" />{" "}
+                        <FacebookOutlined className="mr-2 bg-amber-400 p-2 text-sm rounded-full" />
+                        <YoutubeOutlined className="mr-2 bg-amber-400 p-2 text-sm rounded-full" />
                         <TwitterOutlined className="bg-amber-400 p-2 text-sm rounded-full" />
                     </div>
                 </div>
-                <div className="container mx-auto flex justify-between items-center bg-white border-b-2 border-amber-500 ">
+                <div className="container mx-auto flex justify-between items-center bg-white border-b-2 border-amber-500">
                     <Link to="/">
                         <img src={logo} className="h-24 object-cover" alt="" />
-                    </Link>{" "}
-                    <div className="">
-                        <Menu
-                            className="max-md:hidden w-full  justify-end items-end font-sans text-xl font-bold bg-white "
-                            mode="horizontal"
-                            items={menuItems}
-                        ></Menu>
-                        <Menu
-                            className="md:hidden w-full  justify-end items-center font-sans text-xl font-bold bg-white"
-                            mode="vertical"
-                            items={menuItems}
-                        ></Menu>
+                    </Link>
+                    <div>
+                        {!isMobile && (
+                            <Menu
+                                className="max-lg:hidden w-full justify-end items-end font-sans text-xl font-bold bg-white"
+                                mode="horizontal"
+                                items={menuItems}
+                            />
+                        )}
                     </div>
                     {user?.role === "admin" || user?.role === "user" ? (
-                        <div className="flex items-center">
+                        <div className="flex items-center justify-center">
                             <Dropdown menu={{ items }}>
                                 <a onClick={(e) => e.preventDefault()}>
                                     <Space>
@@ -131,7 +164,28 @@ const Header = () => {
                             </div>
                         </div>
                     ) : (
-                        <Buttons to="/login">Login</Buttons>
+                        <div>
+                            <div className="max-lg:hidden">
+                                <Buttons to="/login">Login</Buttons>
+                            </div>
+                            <div
+                                className="h-20 w-20 lg:hidden flex justify-end items-center"
+                                onClick={() => setOpen(!open)}
+                            >
+                                {open ? (
+                                    <CloseCircleOutlined className="text-3xl" />
+                                ) : (
+                                    <BarsOutlined className="text-3xl" />
+                                )}
+                            </div>
+                            {open && (
+                                <Menu
+                                    className="lg:hidden w-full absolute right-0 top-[137px] border-2 justify-end items-center font-sans text-xl font-bold bg-white"
+                                    mode="vertical"
+                                    items={menuItems2}
+                                />
+                            )}
+                        </div>
                     )}
                 </div>
             </div>

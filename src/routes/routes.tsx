@@ -17,6 +17,7 @@ import ManageBooking from "@/pages/AdminDashboard/ManageBooking";
 import ManageReturnCars from "@/pages/AdminDashboard/ManageReturnCars";
 import UserManagement from "@/pages/AdminDashboard/UserManagement";
 import ManagePayment from "@/pages/Dashboard/ManagePayment";
+import BookingList from "@/pages/Booking/BookingList";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
             {
                 path: "/car-details/:id",
                 element: <CarDetails />,
+            },
+            {
+                path: "/booking-list",
+                element: <BookingList />,
             },
             {
                 path: "*",

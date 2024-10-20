@@ -29,3 +29,12 @@
 :where(.css-dev-only-do-not-override-qnu6hi).ant-layout .ant-layout-sider {
     background: #f7f7f3;
 }
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu
+    .ant-menu-item
+    a.bg-border-bottom::before {
+    position: absolute;
+    inset: 0;
+    background-color: transparent;
+    content: "";
+    border-bottom: 2px solid #f1eeee;
+}
