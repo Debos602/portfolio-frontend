@@ -21,7 +21,7 @@ const CarList = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     });
-    console.log(cars);
+
     const [filteredCars, setFilteredCars] = useState<TCar[] | undefined>(
         cars?.data
     );

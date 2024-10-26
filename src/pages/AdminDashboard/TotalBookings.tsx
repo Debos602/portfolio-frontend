@@ -35,7 +35,6 @@ const TotalBookings = () => {
     }, []);
 
     // Log the bookings data to check its structure
-    console.log("Bookings data:", bookingsData);
 
     // Assuming `bookingsData.data` contains the array of bookings
     const bookings: Booking[] = Array.isArray(bookingsData?.data)

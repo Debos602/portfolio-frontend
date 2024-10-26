@@ -104,8 +104,7 @@ const UserManagement = () => {
                         </Button>
                     ) : (
                         <Button
-                            type="primary"
-                            className="bg-blue-500 hover:bg-blue-600"
+                            className="bg-black text-white hover:bg-white hover:text-black transition-all duration-700"
                             onClick={() =>
                                 handleUpdateUserRole(record._id, "admin")
                             }
@@ -136,7 +135,7 @@ const UserManagement = () => {
     }
 
     return (
-        <div className="container mx-auto p-8">
+        <div className="container mx-auto">
             <h1 className="text-center from-amber-200 to-amber-50 bg-gradient-to-b  py-16 text-5xl font-normal uppercase rounded-xl">
                 User Management
             </h1>

@@ -42,7 +42,6 @@ const BookingForm = () => {
     const [form] = Form.useForm();
 
     const onFinish = async (values: TOrder) => {
-        console.log(values);
         try {
             const updatedData = {
                 ...values,

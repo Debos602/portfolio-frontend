@@ -39,13 +39,11 @@ const UpdatesCar = () => {
     };
 
     const handleUpdate = async (values: TCar) => {
-        console.log(values);
-
         if (!currentCar) {
             toast.error("No car selected for update.");
             return;
         }
-        console.log(currentCar);
+
         const formData = new FormData();
 
         // Append the car data as a stringified object
@@ -55,7 +53,6 @@ const UpdatesCar = () => {
         if (imageFile) {
             formData.append("image", imageFile);
         }
-        console.log("Form Data:", formData.getAll("car"));
 
         try {
             // Use the API call to send the formData
@@ -98,20 +95,15 @@ const UpdatesCar = () => {
         {
             title: "Actions",
             key: "actions",
-            render: (text: string, car: TCar) => (
+            render: (car: TCar) => (
                 <>
                     <Button
-                        type="primary"
                         onClick={() => openUpdateModal(car)}
-                        className="mr-2"
+                        className="mr-2 bg-black text-white hover:bg-white hover:text-black transition-all duration-700"
                     >
                         Update
                     </Button>
-                    <Button
-                        type="default"
-                        danger
-                        onClick={() => handleDelete(car._id)}
-                    >
+                    <Button danger onClick={() => handleDelete(car._id)}>
                         Delete
                     </Button>
                 </>

@@ -131,7 +131,7 @@ const Header = () => {
                 }}
             >
                 <div className="container mx-auto flex justify-around items-center py-1 bg-gray-800">
-                    <div className="flex text-white opacity-80 w-full">
+                    <div className="max-md:hidden flex text-white opacity-80 w-full">
                         <div className="text-md font-medium text-white">
                             <MailOutlined />
                             <span className="mx-2">Debos.das.02@gmail.com</span>

@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
                 trigger={null}
                 collapsible
                 collapsed={collapsed}
-                className="bg-white"
+                style={{ backgroundColor: "var(--bg-color)" }}
             >
                 <div className="sticky top-0 z-30">
                     <img

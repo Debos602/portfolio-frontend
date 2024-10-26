@@ -14,7 +14,7 @@ const ManageReturnCars = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     });
-    console.log(bookings);
+
     const [returncar] = useReturnCarMutation();
     const [loading, setLoading] = useState(false);
 
@@ -28,8 +28,6 @@ const ManageReturnCars = () => {
                 endTime, // Update the endTime to current time
                 status: "completed",
             };
-
-            console.log(updatedData);
 
             await returncar(updatedData).unwrap();
             message.success("Car returned successfully.");
@@ -115,7 +113,7 @@ const ManageReturnCars = () => {
     }
 
     return (
-        <div className="p-4 max-w-7xl mx-auto">
+        <div className="container mx-auto">
             {" "}
             <h1 className="text-center from-amber-200 to-amber-50 bg-gradient-to-b  py-16 text-5xl font-normal uppercase rounded-xl">
                 Manage Returns Car

@@ -72,7 +72,6 @@ const Profile = () => {
             toast.success("Profile updated successfully");
             refetch();
         } catch (error) {
-            console.error("Error updating profile:", error);
             toast.error("Failed to update profile");
         }
     };
@@ -110,13 +109,16 @@ const Profile = () => {
     return (
         <div>
             {/* Profile Banner */}
-            <Card className="mb-8 text-center">
+            <Card className="mb-8 text-center from-amber-200 to-amber-50 bg-gradient-to-b font-normal uppercase rounded-xl">
                 <Avatar
                     size={120}
                     src="https://randomuser.me/api/portraits/women/44.jpg"
                 />
                 <h1 className="text-3xl font-bold mt-4">{name}</h1>
-                <p className="text-md text-gray-500">{role}</p>
+                <p className="text-md text-gray-500">
+                    {" "}
+                    <strong>Designation:</strong> {role}
+                </p>
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-semibold">
                         Personal Information:
@@ -159,7 +161,7 @@ const Profile = () => {
                         </Form.Item>
                         <Form.Item className="text-center">
                             <Button
-                                className="bg-gray-700 text-white w-full"
+                                className="bg-gray-700 text-white"
                                 htmlType="submit"
                             >
                                 Update Profile

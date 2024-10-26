@@ -35,13 +35,13 @@ const CarDetails = () => {
             hour: "2-digit",
             minute: "2-digit",
         });
-        console.log(startTime);
+
         const bookingData = {
             carId: car._id, // Use car ID
             date: new Date().toISOString(),
             startTime: startTime,
         };
-        console.log(bookingData);
+
         try {
             await createBooking(bookingData).unwrap(); // Call the booking API
             toast.success("Booking created successfully"); // Redirect to the booking page

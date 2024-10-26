@@ -20,8 +20,6 @@ const Login: React.FC = () => {
     const location = useLocation(); // capture the location
 
     const onFinish: FormProps<FieldType>["onFinish"] = async (data) => {
-        console.log("Form Data:", data);
-
         try {
             const response = await userLogin(data).unwrap();
             const { data: user, token } = response;
@@ -35,11 +33,9 @@ const Login: React.FC = () => {
                     (user.role === "admin" ? "/admin-dashboard" : "/dashboard");
                 navigate(redirectPath, { replace: true });
             } else {
-                console.error("Unexpected response structure:", response);
                 toast.error("Invalid response from server.");
             }
         } catch (error) {
-            console.error("Login error:", error);
             toast.error("Login failed, please try again.");
         }
     };

@@ -8,7 +8,6 @@ const TotalRevenue = () => {
         refetchOnMountOrArgChange: true,
         refetchOnFocus: true,
     });
-    console.log();
 
     if (isLoading) {
         return <Spin size="large" />;

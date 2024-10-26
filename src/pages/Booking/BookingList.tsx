@@ -74,11 +74,11 @@ const BookingList = () => {
     const columns = [
         {
             title: "Image",
-            dataIndex: "image",
+            dataIndex: ["car", "image"], // Fix here to directly access car image
             key: "image",
-            render: (text: string, record: Bookings) => (
+            render: (image: string) => (
                 <img
-                    src={record?.car?.image}
+                    src={image}
                     className="h-24 w-48 object-cover rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
                     alt="Car Image"
                 />
@@ -122,7 +122,7 @@ const BookingList = () => {
         {
             title: "Actions",
             key: "actions",
-            render: (text: string, record: Bookings) => (
+            render: (record: Bookings) => (
                 <Button
                     className={`border-2 text-black px-4 py-1 rounded-lg font-semibold transition-all duration-300 ${
                         record.status === "approved"
@@ -142,7 +142,7 @@ const BookingList = () => {
     return (
         <div className="container mx-auto p-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition-all duration-500">
             <h2 className="text-3xl font-extrabold text-center mb-8 text-gray-900">
-                Manage Your Bookings
+                Manage Your Booking
             </h2>
             {bookings?.data && bookings.data.length > 0 ? (
                 <Table

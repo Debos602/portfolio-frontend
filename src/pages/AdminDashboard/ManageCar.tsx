@@ -11,7 +11,7 @@ const ManageCar = () => {
                 Manage Car
             </h1>
             <ManageTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            <div className="mt-4">
+            <div className="mt-4 container mx-auto">
                 {activeTab === "add" && <AddsCar />}
                 {activeTab === "update-and-delete" && <UpdatesCar />}
             </div>

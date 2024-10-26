@@ -39,7 +39,6 @@ const AddsCar = () => {
             form.resetFields();
             setFile(null); // Reset file after successful submission
         } catch (error) {
-            console.error("Error adding car:", error);
             toast.error("Failed to add car: " + error || "Unknown error");
         }
     };
@@ -206,7 +205,7 @@ const AddsCar = () => {
                             <Button
                                 type="primary"
                                 htmlType="submit"
-                                className="bg-opacity-10 bg-gradient-to-r from-black via-amber-500 to-black rounded-xl uppercase text-center text-white font-bold px-12 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                                className="bg-black hover:bg-white border-2 rounded-xl uppercase text-center text-white font-bold px-12 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                             >
                                 Add Car
                             </Button>

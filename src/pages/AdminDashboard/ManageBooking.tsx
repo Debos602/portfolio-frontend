@@ -1,4 +1,4 @@
-import { Spin, Table, Button, Popconfirm, message, Tooltip } from "antd";
+import { Spin, Table, Button, Popconfirm, message } from "antd";
 import {
     useGetAllBookingsQuery,
     useDeleteBookingMutation,
@@ -107,39 +107,35 @@ const ManageBooking = () => {
             key: "actions",
             render: (_, record: TBooking) => (
                 <div className="flex space-x-2">
-                    <Tooltip title="Approve">
-                        <Popconfirm
-                            title="Are you sure you want to approve this booking?"
-                            onConfirm={() => handleApprove(record._id)}
-                            okText="Yes"
-                            cancelText="No"
+                    <Popconfirm
+                        title="Are you sure you want to approve this booking?"
+                        onConfirm={() => handleApprove(record._id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button
+                            size="small"
+                            className="mr-2 bg-black text-white"
+                            disabled={record.status === "approved"}
                         >
-                            <Button
-                                type="primary"
-                                size="small"
-                                className="mr-2"
-                                disabled={record.status === "approved"}
-                            >
-                                Approve
-                            </Button>
-                        </Popconfirm>
-                    </Tooltip>
-                    <Tooltip title="Cancel">
-                        <Popconfirm
-                            title="Are you sure you want to cancel this booking?"
-                            onConfirm={() => handleCancel(record._id)}
-                            okText="Yes"
-                            cancelText="No"
+                            Approve
+                        </Button>
+                    </Popconfirm>
+
+                    <Popconfirm
+                        title="Are you sure you want to cancel this booking?"
+                        onConfirm={() => handleCancel(record._id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <Button
+                            danger
+                            size="small"
+                            disabled={record.status === "canceled"}
                         >
-                            <Button
-                                danger
-                                size="small"
-                                disabled={record.status === "canceled"}
-                            >
-                                Cancel
-                            </Button>
-                        </Popconfirm>
-                    </Tooltip>
+                            Cancel
+                        </Button>
+                    </Popconfirm>
                 </div>
             ),
         },
@@ -154,7 +150,7 @@ const ManageBooking = () => {
     }
 
     return (
-        <div className="p-4 max-w-7xl mx-auto">
+        <div className="container mx-auto">
             <h1 className="text-center from-amber-200 to-amber-50 bg-gradient-to-b  py-16 text-5xl font-normal uppercase rounded-xl">
                 Manage Bookings
             </h1>

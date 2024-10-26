@@ -25,7 +25,6 @@ const ForgetPassword: React.FC = () => {
                 toast.error("Failed to send password reset link.");
             }
         } catch (error) {
-            console.error("Forgot password error:", error);
             toast.error("Something went wrong, please try again.");
         }
     };
