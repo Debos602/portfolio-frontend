@@ -3,23 +3,27 @@ import { routeGenerator } from "@/utilities/routeGenarator";
 import { createBrowserRouter } from "react-router-dom";
 import { navPaths } from "./navRoutes";
 import Login from "@/pages/Login";
-import CarDetails from "@/pages/car/CarDetails";
 import SignUp from "@/pages/SignUp";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import ProtectedRoute from "@/layout/ProtectedRoute";
 import ErrorPage from "@/layout/ErrorPage";
-import Profile from "@/pages/Dashboard/Profile";
-import Custombooking from "@/pages/Custombooking";
+
 import DashBoardOverview from "@/pages/AdminDashboard/DashBoardOverview";
 import ManageCar from "@/pages/AdminDashboard/ManageCar";
 import AdminDashboard from "@/pages/Dashboard/AdminDashboard";
 import ManageBooking from "@/pages/AdminDashboard/ManageBooking";
 import ManageReturnCars from "@/pages/AdminDashboard/ManageReturnCars";
 import UserManagement from "@/pages/AdminDashboard/UserManagement";
-import ManagePayment from "@/pages/Dashboard/ManagePayment";
-import BookingList from "@/pages/Booking/BookingList";
-import ForgetPassword from "@/pages/ForgetPassword";
+
 import ResetPassword from "@/pages/ResetPassword";
+import About from "@/pages/Home/About/About";
+import Projects from "@/pages/Home/Projects";
+import Skills from "@/pages/Home/Skills";
+import Blog from "@/pages/Home/Blog";
+import Contact from "@/pages/Contact";
+import Introduction from "@/pages/Home/Introduction";
+import Experience from "@/pages/Home/Experience";
+import Home from "@/pages/Home/Home";
 
 const router = createBrowserRouter([
     {
@@ -37,23 +41,45 @@ const router = createBrowserRouter([
                 element: <Login />,
             },
             {
-                path: "/car-details/:id",
-                element: <CarDetails />,
+                path: "/",
+                element: <Home />,
             },
             {
-                path: "/booking-list",
-                element: <BookingList />,
+                path: "/introduction",
+                element: <Introduction />,
             },
+            {
+                path: "/about",
+                element: <About />,
+            },
+            {
+                path: "/projects",
+                element: <Projects />,
+            },
+            {
+                path: "/expereince",
+                element: <Experience />,
+            },
+            {
+                path: "/skills",
+                element: <Skills />,
+            },
+            {
+                path: "/blog",
+                element: <Blog />,
+            },
+            {
+                path: "/contact",
+                element: <Contact />,
+            },
+
             {
                 path: "*",
                 element: <ErrorPage />,
             },
         ],
     },
-    {
-        path: "/forgot-password",
-        element: <ForgetPassword />,
-    },
+
     {
         path: "/reset-password",
         element: <ResetPassword />,
@@ -65,24 +91,7 @@ const router = createBrowserRouter([
                 <Dashboard />
             </ProtectedRoute>
         ),
-        children: [
-            {
-                index: true,
-                element: <Profile />,
-            },
-            {
-                path: "profile",
-                element: <Profile />,
-            },
-            {
-                path: "booking",
-                element: <Custombooking />,
-            },
-            {
-                path: "payment",
-                element: <ManagePayment />,
-            },
-        ],
+        children: [],
     },
     {
         path: "/admin-dashboard",

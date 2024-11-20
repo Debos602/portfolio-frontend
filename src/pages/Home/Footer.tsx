@@ -4,11 +4,10 @@ import {
     TwitterSquareFilled,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import image from "../../assets/footer-bg.jpg";
 
 const Footer = () => {
     const bgImage = {
-        backgroundImage: `url(${image})`,
+        backgroundImage: `url()`,
     };
 
     return (

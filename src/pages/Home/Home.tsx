@@ -1,16 +1,22 @@
-import HeroSection from "../HeroSection";
-import CustomerTestimonials from "./CustomerTestimonials";
-import FeaturedCars from "./FeaturedCar";
-import WhyChooseUs from "./WhyChooseUs";
+import Contact from "../Contact";
+import About from "./About/About";
+import Blog from "./Blog";
+import Experience from "./Experience";
+import Introduction from "./Introduction";
+import Projects from "./Projects";
+import Skills from "./Skills";
 
 const Home = () => {
     return (
-        <div>
-            <HeroSection />
-            <FeaturedCars />
-            <WhyChooseUs />
-            <CustomerTestimonials />
-        </div>
+        <>
+            <Introduction />
+            <Skills />
+            <Projects />
+            <About />
+            <Experience />
+            <Blog />
+            <Contact />
+        </>
     );
 };
 

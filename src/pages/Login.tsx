@@ -23,7 +23,7 @@ const Login: React.FC = () => {
         try {
             const response = await userLogin(data).unwrap();
             const { data: user, token } = response;
-
+            console.log("access token:", token);
             if (user && token) {
                 dispatch(setUser({ user, token }));
                 toast.success("Login Successful");

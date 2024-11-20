@@ -14,7 +14,7 @@ import { Avatar, Button, Dropdown, Layout, Menu, Space, theme } from "antd";
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout } from "@/redux/feature/authSlice";
-import logo from "@/assets/car-lgo.png";
+
 import { RootState } from "@/redux/store";
 import { TUser } from "@/types/global";
 
@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
             >
                 <div className="sticky top-0 z-30">
                     <img
-                        src={logo}
+                        src=""
                         className="h-24 w-full object-cover"
                         alt="logo"
                     />
