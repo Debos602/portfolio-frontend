@@ -1,9 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Exo:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Exo:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    font-family: exo, sans-serif;
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 @tailwind base;
 @tailwind components;
@@ -27,4 +26,31 @@ body {
 }
 :where(.css-qnu6hi).ant-menu-horizontal {
     border-bottom: none;
+}
+
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light,
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light > .ant-menu {
+    color: #eeeeee;
+    background: #3b1e54;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
+    .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
+    > .ant-menu
+    .ant-menu-item-selected {
+    background-color: #9b7ebd;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
+    .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
+    > .ant-menu
+    .ant-menu-item-selected {
+    color: #eeeeee;
+}
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-dark
+    .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-dark
+    > .ant-menu
+    .ant-menu-item-selected {
+    background-color: #9b7ebd;
 }

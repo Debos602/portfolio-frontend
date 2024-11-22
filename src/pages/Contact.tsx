@@ -1,52 +1,168 @@
+import { useForm, SubmitHandler } from "react-hook-form";
+import { motion } from "framer-motion";
+import {
+    EnvironmentOutlined,
+    MailOutlined,
+    PhoneOutlined,
+} from "@ant-design/icons";
+
+type FormValues = {
+    name: string;
+    email: string;
+    phone: string;
+    message: string;
+};
+
 const Contact = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<FormValues>();
+
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        console.log("Form Submitted:", data);
+        alert("Thank you for your message!");
+        reset(); // Clear the form after successful submission
+    };
+
     return (
-        <div className="container mx-auto mt-[110px]">
-            <div className="flex flex-col items-center justify-center py-16 min-h-screen">
-                <h2 className="text-5xl font-bold text-gray-800 mb-12">
-                    Get In Touch
-                </h2>
-
-                <div className="bg-white shadow-xl rounded-xl p-10 w-full max-w-4xl flex flex-col lg:flex-row lg:space-x-10">
-                    <div className="w-full lg:w-1/2">
-                        <div className="mb-8">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                                Phone
-                            </h3>
-                            <p className="text-gray-600 hover:text-gray-800 transition duration-300">
-                                +1 234 567 890
-                            </p>
-                        </div>
-
-                        <div className="mb-8">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                                Email
-                            </h3>
-                            <p className="text-gray-600 hover:text-gray-800 transition duration-300">
-                                contact@example.com
-                            </p>
-                        </div>
-
-                        <div className="mb-8">
-                            <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                                Address
-                            </h3>
-                            <p className="text-gray-600 hover:text-gray-800 transition duration-300">
-                                1234 Example St, City, State, ZIP
-                            </p>
+        <div className="bg-gradient-to-br from-[#D4BEE4] to-[#9B7EBD] min-h-screen flex items-center justify-center py-12">
+            <div className="grid grid-cols-1 md:grid-cols-6 max-w-6xl w-ful px-10">
+                {/* Left Grid: Contact Details */}
+                <motion.div
+                    className="bg-white bg-opacity-80 p-8 col-span-2 shadow-xl flex flex-col items-start justify-center space-y-6 transform hover:scale-105 transition-transform duration-500"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1 }}
+                >
+                    <h3 className="text-3xl font-semibold text-[#3B1E54]">
+                        Contact Information
+                    </h3>
+                    {/* Location */}
+                    <div className="space-x-2 ">
+                        <div className="text-[16px] text-[#3B1E54]">
+                            <EnvironmentOutlined />
+                            <h5>Location:</h5>
+                            <p>Uttar Patenga, Chattagram, Bangladesh</p>
                         </div>
                     </div>
 
-                    {/* Google Map Embed */}
-                    <div className="w-full lg:w-1/2 h-64 lg:h-auto">
-                        <iframe
-                            className="w-full h-full rounded-lg"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0946651781265!2d-122.41941548468124!3d37.77492967975939!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809cbae05d4d%3A0xc7f5f1bbed1b65!2sSan+Francisco%2C+CA!5e0!3m2!1sen!2sus!4v1631514244343!5m2!1sen!2sus"
-                            allowFullScreen={true}
-                            loading="lazy"
-                            title="Google Map"
-                        ></iframe>
+                    {/* Call */}
+                    <div className="space-x-2 ">
+                        <div className="text-[16px] text-[#3B1E54]">
+                            <PhoneOutlined />
+                            <h5>Cell:</h5>
+                            <span>+8801834491602</span>
+                        </div>
                     </div>
-                </div>
+
+                    {/* Email */}
+                    <div className="space-x-2 ">
+                        <div className="text-[16px] text-[#3B1E54]">
+                            <MailOutlined />
+                            <h5>Email us:</h5>
+                            <p>Debos.das.02@gmail.com</p>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* Right Grid: Contact Form */}
+                <motion.div
+                    className="col-span-4  bg-white bg-opacity-80 p-8 shadow-xl transform hover:scale-105 transition-transform duration-500"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1 }}
+                >
+                    <h3 className="text-3xl text-[#3B1E54] font-semibold mb-4 text-center">
+                        Send Us a Message
+                    </h3>
+                    <form
+                        className="space-y-4"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
+                        {/* Name Field */}
+                        <div>
+                            <input
+                                type="text"
+                                placeholder="Your Name"
+                                {...register("name", {
+                                    required: "Name is required",
+                                })}
+                                className="w-full p-3 rounded-lg border-2 border-[#9B7EBD] bg-[#EEEEEE] placeholder-[#9B7EBD] focus:outline-none focus:ring-2 focus:ring-[#3B1E54] text-[#3B1E54]"
+                            />
+                            {errors.name && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.name.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Email Field */}
+                        <div>
+                            <input
+                                type="email"
+                                placeholder="Your Email"
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^\S+@\S+$/i,
+                                        message: "Invalid email address",
+                                    },
+                                })}
+                                className="w-full p-3 rounded-lg border-2 border-[#9B7EBD] bg-[#EEEEEE] placeholder-[#9B7EBD] focus:outline-none focus:ring-2 focus:ring-[#3B1E54] text-[#3B1E54]"
+                            />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.email.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Phone Field */}
+                        <div>
+                            <input
+                                type="tel"
+                                placeholder="Your Phone Number"
+                                {...register("phone", {
+                                    required: "Phone number is required",
+                                })}
+                                className="w-full p-3 rounded-lg border-2 border-[#9B7EBD] bg-[#EEEEEE] placeholder-[#9B7EBD] focus:outline-none focus:ring-2 focus:ring-[#3B1E54] text-[#3B1E54]"
+                            />
+                            {errors.phone && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.phone.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Message Field */}
+                        <div>
+                            <textarea
+                                placeholder="Your Message"
+                                {...register("message", {
+                                    required: "Message is required",
+                                })}
+                                rows={5}
+                                className="w-full p-3 rounded-lg border-2 border-[#9B7EBD] bg-[#EEEEEE] placeholder-[#9B7EBD] focus:outline-none focus:ring-2 focus:ring-[#3B1E54] text-[#3B1E54]"
+                            />
+                            {errors.message && (
+                                <p className="text-red-500 text-sm">
+                                    {errors.message.message}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Submit Button */}
+                        <button
+                            type="submit"
+                            className="w-full py-3 bg-[#3B1E54] text-white rounded-lg font-semibold transition-transform transform hover:scale-105 hover:bg-[#9B7EBD]"
+                        >
+                            Send Message
+                        </button>
+                    </form>
+                </motion.div>
             </div>
         </div>
     );

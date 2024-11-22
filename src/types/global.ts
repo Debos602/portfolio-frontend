@@ -73,3 +73,35 @@ export interface TOrder {
     transactionId: string; // Assuming transactionId is a string
     paymentStatus: string; // Assuming payementStatus is a string
 }
+export interface TExperience {
+    title: string;
+    company: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+    role: string;
+    location: string;
+    technologies: string;
+}
+export type TProject = {
+    _id: string;
+    title: string;
+    image: string;
+    description: string;
+    githubLinkFrontend: string;
+    githubLinkBackend: string;
+    liveLink: string;
+};
+
+export interface TSkill {
+    _id: string;
+    title: string;
+    description: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+export type TBlog = {
+    _id: string;
+    title: string;
+    description: string;
+};

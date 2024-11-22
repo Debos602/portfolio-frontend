@@ -7,22 +7,22 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
     const bgImage = {
-        backgroundImage: `url()`,
+        backgroundImage: `url('path_to_your_image.jpg')`,
     };
 
     return (
         <footer
-            className="bg-gray-900 text-white py-8 bg-cover bg-center bg-no-repeat relative z-10"
+            className="bg-[#3B1E54] text-white py-8 bg-cover bg-center bg-no-repeat relative z-10 transition-all duration-300 ease-in-out"
             style={bgImage}
         >
             {/* Background overlay */}
-            <div className="absolute inset-0 w-full h-full bg-gray-900 opacity-80 -z-10"></div>
+            <div className="absolute inset-0 w-full h-full bg-[#3B1E54] opacity-80 -z-10"></div>
 
             <div className="container mx-auto px-4">
                 {/* Footer content */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Social Media Links */}
-                    <div>
+                    <div className="transition-transform transform hover:scale-105 duration-300">
                         <h4 className="text-lg font-semibold mb-4">
                             Follow Us
                         </h4>
@@ -31,7 +31,7 @@ const Footer = () => {
                                 href="https://facebook.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:text-amber-600"
+                                className="hover:text-[#9B7EBD] transition-colors duration-300"
                             >
                                 <FacebookFilled />
                             </a>
@@ -39,7 +39,7 @@ const Footer = () => {
                                 href="https://twitter.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:text-amber-600"
+                                className="hover:text-[#9B7EBD] transition-colors duration-300"
                             >
                                 <TwitterSquareFilled />
                             </a>
@@ -47,52 +47,49 @@ const Footer = () => {
                                 href="https://instagram.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="hover:text-amber-600"
+                                className="hover:text-[#9B7EBD] transition-colors duration-300"
                             >
                                 <InstagramFilled />
                             </a>
                         </div>
                     </div>
 
-                    {/* Top Brands */}
-                    <div>
+                    {/* Portfolio Highlights */}
+                    <div className="transition-transform transform hover:scale-105 duration-300">
                         <h4 className="text-lg font-semibold mb-4">
-                            Top Brands
+                            Portfolio Highlights
                         </h4>
                         <ul className="space-y-2">
-                            <li>Alfa Romeo</li>
-                            <li>Ferrari</li>
-                            <li>BMW Series</li>
-                            <li>Mercedes</li>
-                            <li>Aston Martin</li>
-                            <li>Toyota</li>
+                            <li>Personal Portfolio Website</li>
+                            <li>E-commerce Platform</li>
+                            <li>Blog Management System</li>
+                            <li>Task Management Application</li>
+                            <li>Real Estate Listing Website</li>
                         </ul>
                     </div>
 
                     {/* Categories */}
-                    <div>
+                    <div className="transition-transform transform hover:scale-105 duration-300">
                         <h4 className="text-lg font-semibold mb-4">
-                            Categories
+                            Skills & Technologies
                         </h4>
                         <ul className="space-y-2">
-                            <li>Trucks</li>
-                            <li>Sports Cars</li>
-                            <li>Crossovers</li>
-                            <li>Hybrid Cars</li>
-                            <li>Hybrid SUVs</li>
-                            <li>Future Cars</li>
+                            <li>React.js & Next.js</li>
+                            <li>Node.js & Express.js</li>
+                            <li>MongoDB & Mongoose</li>
+                            <li>Tailwind CSS & Styled Components</li>
+                            <li>JWT Authentication</li>
+                            <li>TypeScript</li>
                         </ul>
                     </div>
 
-                    {/* Additional Info */}
-                    <div>
-                        <h4 className="text-lg font-semibold mb-4">
-                            Additional Info
-                        </h4>
+                    {/* Contact Info */}
+                    <div className="transition-transform transform hover:scale-105 duration-300">
+                        <h4 className="text-lg font-semibold mb-4">Contact</h4>
                         <ul className="space-y-2">
-                            <li>Call us: (042) 789 35490</li>
-                            <li>Email: support@Carena.com</li>
-                            <li>Address: Fairview Ave, El Monte, CA, 91732</li>
+                            <li>Call us: (123) 456-7890</li>
+                            <li>Email: support@yourportfolio.com</li>
+                            <li>Address: 123 Portfolio St., City, Country</li>
                             <li>Mon - Fri: 09:00 AM to 06:00 PM</li>
                         </ul>
                     </div>
@@ -102,21 +99,30 @@ const Footer = () => {
                 <div className="mt-8 flex flex-col md:flex-row justify-between items-center text-sm">
                     {/* Footer Links */}
                     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
-                        <Link to="/" className="hover:text-amber-600">
+                        <Link
+                            to="/privacy-policy"
+                            className="hover:text-[#9B7EBD] transition-colors duration-300"
+                        >
                             Privacy Policy
                         </Link>
-                        <Link to="/" className="hover:text-amber-600">
+                        <Link
+                            to="/terms-of-service"
+                            className="hover:text-[#9B7EBD] transition-colors duration-300"
+                        >
                             Terms of Service
                         </Link>
-                        <Link to="/" className="hover:text-amber-600">
+                        <Link
+                            to="/contact"
+                            className="hover:text-[#9B7EBD] transition-colors duration-300"
+                        >
                             Contact Us
                         </Link>
                     </div>
 
                     {/* Footer Bottom */}
                     <div className="mt-4 md:mt-0 text-center">
-                        &copy; {new Date().getFullYear()} Your Company Name. All
-                        rights reserved.
+                        &copy; {new Date().getFullYear()} Your Portfolio Name.
+                        All rights reserved.
                     </div>
                 </div>
             </div>

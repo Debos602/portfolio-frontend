@@ -1,37 +1,19 @@
-import React from "react";
+import { useGetAllProjectsQuery } from "@/redux/feature/project/project.api";
+import { TProject } from "@/types/global"; // Make sure to define TProject type based on your data
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // Adjust based on your routing library
-
-const projects = [
-    {
-        title: "Portfolio Website",
-        description: "A personal portfolio to showcase skills and projects.",
-        githubLink: "https://github.com/user/portfolio",
-        liveLink: "https://portfolio.example.com",
-    },
-    {
-        title: "E-commerce Platform",
-        description:
-            "An online store with user authentication and cart functionality.",
-        githubLink: "https://github.com/user/ecommerce",
-        liveLink: "https://ecommerce.example.com",
-    },
-    {
-        title: "Task Manager",
-        description: "A task management app with real-time updates.",
-        githubLink: "https://github.com/user/task-manager",
-        liveLink: "https://task-manager.example.com",
-    },
-];
+import { Link, useNavigate } from "react-router-dom";
 
 const Projects = () => {
     const navigate = useNavigate();
 
-    const handleProjectDetails = (projectTitle: string) => {
-        navigate(
-            `/projects/${projectTitle.toLowerCase().replace(/\s+/g, "-")}`
-        );
-    };
+    const {
+        data: projects,
+        isLoading,
+        error,
+    } = useGetAllProjectsQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+        refetchOnFocus: true,
+    });
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -47,6 +29,12 @@ const Projects = () => {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
     };
+
+    // Handle loading state
+    if (isLoading) return <div>Loading...</div>;
+
+    // Handle error state
+    if (error) return <div>Error fetching projects</div>;
 
     return (
         <section className="bg-[#EEEEEE] py-10 px-5">
@@ -64,12 +52,17 @@ const Projects = () => {
                 initial="hidden"
                 animate="visible"
             >
-                {projects.map((project, index) => (
+                {projects?.data?.map((project: TProject, index: number) => (
                     <motion.div
                         key={index}
-                        className="bg-white shadow-md rounded-lg p-6 border border-[#D4BEE4] hover:shadow-lg transition-shadow duration-300"
+                        className="bg-[#D4BEE4] rounded-xl shadow-md  p-6 border border-[#D4BEE4] hover:shadow-lg transition-shadow duration-300"
                         variants={cardVariants}
                     >
+                        <img
+                            src={project.image}
+                            alt={project.title}
+                            className="w-full h-40 object-cover rounded mb-4"
+                        />
                         <h3 className="text-xl font-semibold text-[#3B1E54]">
                             {project.title}
                         </h3>
@@ -77,26 +70,38 @@ const Projects = () => {
                             {project.description}
                         </p>
                         <div className="mt-4">
-                            <a
-                                href={project.githubLink}
+                            <Link
+                                to={project.githubLinkFrontend}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sm text-[#9B7EBD] underline mr-4"
+                                className="text-sm text-[#3B1E54] underline mr-4"
                             >
-                                GitHub
-                            </a>
-                            <a
-                                href={project.liveLink}
+                                GitHub frontend
+                            </Link>
+                            <Link
+                                to={project.githubLinkBackend}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sm text-[#9B7EBD] underline"
+                                className="text-sm text-[#3B1E54] underline mr-4"
                             >
-                                Live Demo
-                            </a>
+                                GitHub Backend
+                            </Link>
+                            <Link
+                                to={project.liveLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-[#3B1E54] underline"
+                            >
+                                Live Link
+                            </Link>
                         </div>
                         <button
-                            onClick={() => handleProjectDetails(project.title)}
-                            className="mt-4 bg-[#3B1E54] text-white py-2 px-4 rounded hover:bg-[#9B7EBD] transition-colors duration-300"
+                            onClick={() =>
+                                navigate(`/projects/${project._id}`, {
+                                    state: { projectData: project },
+                                })
+                            }
+                            className="mt-4 w-full bg-[#3B1E54] text-white py-2 px-4 rounded hover:bg-[#9B7EBD] transition-colors duration-300"
                         >
                             Project Details
                         </button>

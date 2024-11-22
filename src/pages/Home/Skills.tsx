@@ -1,51 +1,40 @@
-import { Collapse, Progress } from "antd";
+import { useGetAllSkillsQuery } from "@/redux/feature/skills/skill.api";
+import { TSkill } from "@/types/global";
+import { Collapse, Progress, Spin } from "antd";
 import { motion } from "framer-motion";
 
 const { Panel } = Collapse;
 
 const Skills = () => {
-    const skills = [
-        { title: "HTML", description: "Structure for web content." },
-        { title: "CSS", description: "Styling for web design." },
-        {
-            title: "JavaScript",
-            description: "Interactive behavior for web apps.",
-        },
-        { title: "React", description: "Building user interfaces." },
-        { title: "Redux", description: "State management for complex apps." },
-        {
-            title: "Next.js",
-            description: "Server-side rendering and static site generation.",
-        },
-        {
-            title: "Node.js",
-            description: "JavaScript runtime for server-side development.",
-        },
-        {
-            title: "Express.js",
-            description: "Framework for building web servers.",
-        },
-        {
-            title: "MongoDB",
-            description: "NoSQL database for scalable storage.",
-        },
-        { title: "TypeScript", description: "Strongly typed JavaScript." },
-    ];
+    const {
+        data: skills,
+        isLoading,
+        error,
+    } = useGetAllSkillsQuery(undefined, {
+        refetchOnMountOrArgChange: true,
+        refetchOnFocus: true,
+    });
+    console.log(skills?.data);
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2,
-            },
-        },
-    };
+    const skillData: TSkill[] = skills?.data || [];
+    console.log("skillData", skillData);
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen bg-[#EEEEEE]">
+                <Spin size="large" />
+            </div>
+        );
+    }
 
-    const skillVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-    };
+    if (error) {
+        return (
+            <div className="flex justify-center items-center h-screen bg-[#EEEEEE]">
+                <p className="text-red-600 text-xl font-bold">
+                    Oops! Something went wrong. Please try again later.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <section className="bg-[#EEEEEE] py-10 px-5">
@@ -57,52 +46,79 @@ const Skills = () => {
             >
                 Skills
             </motion.h2>
-            <motion.div
-                className="max-w-7xl mx-auto space-y-6"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <Collapse
-                    accordion
-                    defaultActiveKey={["0"]} // Optionally set the default opened panel
-                    expandIconPosition="right"
-                    className="w-full"
-                >
-                    {skills.map((skill, index) => (
-                        <motion.div key={index} variants={skillVariants}>
-                            <Panel
-                                header={
-                                    <div className="flex justify-between items-center">
-                                        <h3 className="text-lg font-semibold text-[#3B1E54]">
-                                            {skill.title}
-                                        </h3>
-                                        <Progress
-                                            percent={Math.floor(
-                                                Math.random() * 100
-                                            )}
-                                            size="small"
-                                            className="mt-2"
-                                            strokeColor="#9B7EBD"
-                                        />
-                                    </div>
-                                }
-                                key={index}
-                                className="bg-white rounded-lg border border-[#D4BEE4] mb-4"
-                                style={{
-                                    borderRadius: "10px",
-                                    border: "1px solid #D4BEE4",
-                                    backgroundColor: "#FFFFFF",
-                                }}
-                            >
-                                <p className="text-sm text-gray-700 mt-2">
-                                    {skill.description}
-                                </p>
-                            </Panel>
-                        </motion.div>
-                    ))}
-                </Collapse>
-            </motion.div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Skills Section */}
+                <div className="flex flex-col h-full">
+                    <motion.div
+                        className="space-y-6 border-2 border-[#D4BEE4] p-6 rounded-s-xl shadow-xl flex-grow"
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {skillData?.map(
+                            (skill: TSkill) => (
+                                console.log(skill),
+                                (
+                                    <motion.div
+                                        key={skill._id}
+                                        className="rounded-s-xl"
+                                    >
+                                        <Panel
+                                            header={
+                                                <div className="flex justify-between items-center">
+                                                    <h3 className="text-lg font-semibold text-[#3B1E54]">
+                                                        {skill.title}
+                                                    </h3>
+                                                    <Progress
+                                                        percent={Math.floor(
+                                                            Math.random() * 100
+                                                        )}
+                                                        size="small"
+                                                        strokeColor="#9B7EBD"
+                                                    />
+                                                </div>
+                                            }
+                                            key={skill._id}
+                                            className="bg-white rounded-lg border border-[#D4BEE4] mb-4"
+                                        >
+                                            <p className="text-sm text-gray-700 mt-2">
+                                                {skill.description}
+                                            </p>
+                                        </Panel>
+                                    </motion.div>
+                                )
+                            )
+                        )}
+                    </motion.div>
+                </div>
+
+                {/* Throwable Capsules Section */}
+                <div className="flex flex-col h-full">
+                    <motion.div
+                        className="space-y-6 border-2 border-[#D4BEE4] p-6 rounded-r-xl shadow-xl flex-grow"
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        <div>
+                            {skillData?.map(
+                                (skill: TSkill) => (
+                                    console.log(skill),
+                                    (
+                                        <motion.div
+                                            key={skill._id}
+                                            className="bg-[#9B7EBD] text-white shadow-lg border-2 border-white px-6 py-3 text-sm font-semibold mb-4"
+                                        >
+                                            <span className="font-bold">
+                                                {skill.title}:
+                                            </span>{" "}
+                                            {skill.description}
+                                        </motion.div>
+                                    )
+                                )
+                            )}
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
         </section>
     );
 };
