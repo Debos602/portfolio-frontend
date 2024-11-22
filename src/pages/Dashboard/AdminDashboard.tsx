@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import {
     BookOutlined,
+    CodeOutlined,
     DashboardOutlined,
+    DatabaseOutlined,
     DownOutlined,
-    FundOutlined,
     LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    MoneyCollectOutlined,
     RollbackOutlined,
+    SolutionOutlined,
     UserOutlined,
-    UserSwitchOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Dropdown, Layout, Menu, Space, theme } from "antd";
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout } from "@/redux/feature/authSlice";
-
+import logo from "../../assets/logo.png";
 import { RootState } from "@/redux/store";
 import { TUser } from "@/types/global";
 
@@ -42,28 +42,65 @@ const AdminDashboard: React.FC = () => {
     const menuItems = [
         {
             key: "1",
-            icon: <UserOutlined />,
-            label: <Link to="dashboard-overview">Dashboard Overview</Link>,
+            icon: (
+                <BookOutlined className="mr-2" style={{ color: "#EEEEEE" }} />
+            ),
+            label: (
+                <Link
+                    to="/admin-dashboard/management-blog"
+                    style={{ color: "#EEEEEE" }}
+                >
+                    Blog Management
+                </Link>
+            ),
         },
         {
             key: "2",
-            icon: <BookOutlined />,
-            label: <Link to="manage-car">Manage car</Link>,
+            icon: (
+                <DatabaseOutlined
+                    className="mr-2"
+                    style={{ color: "#EEEEEE" }}
+                />
+            ),
+            label: (
+                <Link
+                    to="/admin-dashboard/management-skills"
+                    style={{ color: "#EEEEEE" }}
+                >
+                    Skill Management
+                </Link>
+            ),
         },
         {
             key: "3",
-            icon: <MoneyCollectOutlined />,
-            label: <Link to="manage-booking">Manage booking</Link>,
+            icon: (
+                <SolutionOutlined
+                    className="mr-2"
+                    style={{ color: "#EEEEEE" }}
+                />
+            ),
+            label: (
+                <Link
+                    to="/admin-dashboard/management-projects"
+                    style={{ color: "#EEEEEE" }}
+                >
+                    Project Management
+                </Link>
+            ),
         },
         {
             key: "4",
-            icon: <FundOutlined />,
-            label: <Link to="manage-return-car">Manage return car</Link>,
-        },
-        {
-            key: "5",
-            icon: <UserSwitchOutlined />,
-            label: <Link to="user-management">User Management</Link>,
+            icon: (
+                <CodeOutlined className="mr-2" style={{ color: "#EEEEEE" }} />
+            ),
+            label: (
+                <Link
+                    to="/admin-dashboard/management-experience"
+                    style={{ color: "#EEEEEE" }}
+                >
+                    Experience Management
+                </Link>
+            ),
         },
     ];
 
@@ -73,24 +110,28 @@ const AdminDashboard: React.FC = () => {
                 trigger={null}
                 collapsible
                 collapsed={collapsed}
-                style={{ backgroundColor: "var(--bg-color)" }}
+                width={300}
+                className="relative"
             >
                 <div className="sticky top-0 z-30">
-                    <img
-                        src=""
-                        className="h-24 w-full object-cover"
-                        alt="logo"
+                    <div className=" flex  justify-center items-center bg-gradient-to-t from-[#867496] to-[#9B7EBD] ">
+                        <img
+                            src={logo}
+                            className="h-[6rem] object-cover"
+                            alt="logo"
+                        />
+                    </div>
+                    <Menu
+                        mode="inline"
+                        items={menuItems}
+                        className="text-xl h-screen"
                     />
                 </div>
-                <Menu
-                    mode="inline"
-                    defaultSelectedKeys={["1"]}
-                    items={menuItems}
-                />
             </Sider>
             <Layout>
-                <Header className="flex justify-between bg-white h-24 sticky top-0 z-30">
+                <Header className="flex justify-between items-center bg-gradient-to-t from-[#3B1E54] to-[#9B7EBD] text-[#EEEEEE] h-24">
                     <Button
+                        className="text-[#EEEEEE] text-5xl"
                         type="text"
                         icon={
                             collapsed ? (

@@ -18,11 +18,26 @@ const projectManagementApi = baseApi.injectEndpoints({
             }),
             providesTags: ["Project"],
         }), // Get all project records
+
+        deleteProject: builder.mutation({
+            query: (projectId) => ({
+                url: `/api/delete-project/${projectId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Project"],
+        }), // Delete a project record by ID
+
+        updateProject: builder.mutation({
+            query: ({ data }) => ({
+                url: `/api/update-project`,
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ["Project"],
+        }), // Update an existing project record by ID
     }),
     // Optionally, add a reducerPath if needed, or configure cache behavior
     overrideExisting: false, // Set to true to override existing endpoints
 });
 
-export const { useCreateProjectMutation, useGetAllProjectsQuery } = projectManagementApi;
-
-
+export const { useCreateProjectMutation, useGetAllProjectsQuery, useDeleteProjectMutation, useUpdateProjectMutation } = projectManagementApi;

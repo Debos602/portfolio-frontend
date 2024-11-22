@@ -32,7 +32,7 @@ const Blog = () => {
     };
 
     return (
-        <section className="relative min-h-screen py-12 px-6">
+        <section className="relative min-h-screen py-12 px-6 overflow-hidden">
             {/* Animated Gradient Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#3B1E54] via-[#9B7EBD] to-[#EEEEEE] blur-lg opacity-30 pointer-events-none"></div>
 

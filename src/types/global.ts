@@ -73,16 +73,21 @@ export interface TOrder {
     transactionId: string; // Assuming transactionId is a string
     paymentStatus: string; // Assuming payementStatus is a string
 }
-export interface TExperience {
+export type TExperience = {
+    _id: string;
     title: string;
     company: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     description: string;
-    role: string;
     location: string;
+    role: string;
+    designation: string;
+    responsibilities: string;
     technologies: string;
-}
+    createdAt: Date;
+    updatedAt: Date;
+};
 export type TProject = {
     _id: string;
     title: string;

@@ -30,7 +30,7 @@ const Login: React.FC = () => {
 
                 const redirectPath =
                     location.state?.from?.pathname ||
-                    (user.role === "admin" ? "/admin-dashboard" : "/dashboard");
+                    (user.role === "admin" ? "/admin-dashboard" : "*");
                 navigate(redirectPath, { replace: true });
             } else {
                 toast.error("Invalid response from server.");
@@ -47,7 +47,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto flex justify-center items-center min-h-screen bg-gray-100 mt-[133px]">
+        <div className="container mx-auto flex justify-center items-center min-h-screen bg-gray-100">
             <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
                 <h2 className="text-3xl font-semibold text-center mb-6 text-black">
                     Login to Your Account

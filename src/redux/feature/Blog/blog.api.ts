@@ -17,8 +17,24 @@ const blogManagementApi = baseApi.injectEndpoints({
             }),
             providesTags: ["Blog"], // Provides "Blog" tag for caching
         }),
+        deleteBlog: builder.mutation({
+            query: (id) => ({
+                url: `/api/delete-blogs/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Blog"],
+        }),
+        updateBlog: builder.mutation({
+            query: (data) => ({
+                url: `/api/update-blogs`,
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ["Blog"],
+        })
+
     }),
 });
 
-export const { useCreateBlogMutation, useGetAllBlogsQuery } = blogManagementApi;
+export const { useCreateBlogMutation, useGetAllBlogsQuery, useUpdateBlogMutation, useDeleteBlogMutation } = blogManagementApi;
 

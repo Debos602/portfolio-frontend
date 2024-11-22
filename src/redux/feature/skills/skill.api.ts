@@ -17,8 +17,23 @@ const skillManagementApi = baseApi.injectEndpoints({
             }),
             providesTags: ["Skill"],
         }),
+        deteteSkill: builder.mutation({
+            query: (_id) => ({
+                url: `/api/delete-skills/${_id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Skill"],
+        })
+        , updateSkill: builder.mutation({
+            query: (data) => ({
+                url: `/api/update-skills`,
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ["Skill"],
+        })
     }),
 });
 
 
-export const { useCreateSkillMutation, useGetAllSkillsQuery } = skillManagementApi;
+export const { useCreateSkillMutation, useGetAllSkillsQuery, useUpdateSkillMutation, useDeteteSkillMutation } = skillManagementApi;

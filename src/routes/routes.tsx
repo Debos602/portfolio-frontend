@@ -4,17 +4,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { navPaths } from "./navRoutes";
 import Login from "@/pages/Login";
 import SignUp from "@/pages/SignUp";
-import Dashboard from "@/pages/Dashboard/Dashboard";
 import ProtectedRoute from "@/layout/ProtectedRoute";
 import ErrorPage from "@/layout/ErrorPage";
-
-import DashBoardOverview from "@/pages/AdminDashboard/DashBoardOverview";
-import ManageCar from "@/pages/AdminDashboard/ManageCar";
 import AdminDashboard from "@/pages/Dashboard/AdminDashboard";
-import ManageBooking from "@/pages/AdminDashboard/ManageBooking";
-import ManageReturnCars from "@/pages/AdminDashboard/ManageReturnCars";
-import UserManagement from "@/pages/AdminDashboard/UserManagement";
-
 import ResetPassword from "@/pages/ResetPassword";
 import About from "@/pages/Home/About/About";
 import Projects from "@/pages/Home/Projects";
@@ -25,6 +17,10 @@ import Introduction from "@/pages/Home/Introduction";
 import Experience from "@/pages/Home/Experience";
 import Home from "@/pages/Home/Home";
 import ProjectDetails from "@/pages/Home/ProjectsDetails";
+import AddBlog from "@/pages/AdminDashboard/BlogManagment/AddBlog";
+import AddSkills from "@/pages/AdminDashboard/SkillManagement/AddSkills";
+import AddProjects from "@/pages/AdminDashboard/ProjectManagement/AddProjects";
+import AddExperience from "@/pages/AdminDashboard/ExperienceManagement/AddExperience";
 
 const router = createBrowserRouter([
     {
@@ -33,14 +29,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             ...routeGenerator(navPaths),
-            {
-                path: "/register",
-                element: <SignUp />,
-            },
-            {
-                path: "/login",
-                element: <Login />,
-            },
+
             {
                 path: "/",
                 element: <Home />,
@@ -84,19 +73,22 @@ const router = createBrowserRouter([
             },
         ],
     },
+    {
+        path: "/register",
+        element: <SignUp />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
 
     {
         path: "/reset-password",
         element: <ResetPassword />,
     },
     {
-        path: "/dashboard",
-        element: (
-            <ProtectedRoute allowedRoles={["user"]}>
-                <Dashboard />
-            </ProtectedRoute>
-        ),
-        children: [],
+        path: "*",
+        element: <ErrorPage />,
     },
     {
         path: "/admin-dashboard",
@@ -109,27 +101,23 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <DashBoardOverview />,
+                element: <AddBlog />,
             },
             {
-                path: "dashboard-overview",
-                element: <DashBoardOverview />,
+                path: "management-blog",
+                element: <AddBlog />,
             },
             {
-                path: "manage-car",
-                element: <ManageCar />,
+                path: "management-skills",
+                element: <AddSkills />,
             },
             {
-                path: "manage-booking",
-                element: <ManageBooking />,
+                path: "management-projects",
+                element: <AddProjects />,
             },
             {
-                path: "manage-return-car",
-                element: <ManageReturnCars />,
-            },
-            {
-                path: "user-management",
-                element: <UserManagement />,
+                path: "management-experience",
+                element: <AddExperience />,
             },
         ],
     },
