@@ -32,6 +32,6 @@ const bookingSlice = createSlice({
 });
 
 export const { addBooking, clearBookings } = bookingSlice.actions;
-export const selectBookings = (state: { booking: BookingState }) =>
+export const selectBookings = (state: { booking: BookingState; }) =>
     state.booking.bookings; // Selector to get bookings
 export default bookingSlice.reducer;

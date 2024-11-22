@@ -111,7 +111,7 @@ const AdminDashboard: React.FC = () => {
                 collapsible
                 collapsed={collapsed}
                 width={300}
-                className="relative"
+                className="relative bg-[#3B1E54]"
             >
                 <div className="sticky top-0 z-30">
                     <div className=" flex  justify-center items-center bg-gradient-to-t from-[#867496] to-[#9B7EBD] ">
