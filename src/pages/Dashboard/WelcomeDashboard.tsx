@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 interface WelcomeDashboardProps {
     adminName: string;
@@ -12,47 +13,89 @@ const WelcomeDashboard: React.FC<WelcomeDashboardProps> = ({
     recentActivity = [],
 }) => {
     return (
-        <div className="bg-[#3B1E54] text-[#EEEEEE] p-8 rounded-lg shadow-md border-2 border-[#D4BEE4]">
-            <div className="text-center">
-                <h1 className="text-4xl font-bold text-[#D4BEE4]">
+        <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="p-8"
+        >
+            {/* Header Section */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="text-center"
+            >
+                <h1 className="text-4xl font-bold text-black">
                     Welcome, {adminName}!
                 </h1>
-                <p className="text-[#9B7EBD] mt-2">
+                <p className="text-black text-lg mt-2">
                     Here’s a quick overview of your dashboard.
                 </p>
-            </div>
+            </motion.div>
 
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Cards Section */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4"
+            >
                 {/* Total Blogs Card */}
-                <div className="bg-[#9B7EBD] text-[#3B1E54] p-6 rounded-lg shadow-md inline-block">
+                <motion.div
+
+                    className="text-black p-6 border-2 rounded-xl shadow-md inline-block"
+                >
                     <h2 className="text-xl font-semibold text-center">Total</h2>
                     <p className="text-3xl font-bold text-center mt-2">
                         {totalBlogs}
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Recent Activity Card */}
-                <div className="bg-[#D4BEE4] text-[#3B1E54] p-6 rounded-lg shadow-md md:col-span-2">
-                    <h2 className="text-xl font-semibold">Recent Activities</h2>
+                <motion.div
+
+                    className=" text-black border-2 p-6 rounded-xl shadow-md md:col-span-2"
+                >
+                    <h2 className="text-2xl font-semibold">Recent Activities</h2>
                     {recentActivity.length > 0 ? (
-                        <ul className="mt-2 space-y-2">
+                        <motion.ul
+                            initial="hidden"
+                            animate="visible"
+                            variants={{
+                                hidden: { opacity: 0, y: 10 },
+                                visible: {
+                                    opacity: 1,
+                                    y: 0,
+                                    transition: {
+                                        delayChildren: 0.3,
+                                        staggerChildren: 0.2,
+                                    },
+                                },
+                            }}
+                            className="mt-2"
+                        >
                             {recentActivity.map((activity, index) => (
-                                <li
+                                <motion.li
                                     key={index}
-                                    className="p-3 bg-[#9B7EBD] text-[#3B1E54] rounded shadow-md inline-block m-2"
+                                    variants={{
+                                        hidden: { opacity: 0, y: 10 },
+                                        visible: { opacity: 1, y: 0 },
+                                    }}
+                                    className="p-3 text-lg  text-black rounded shadow-md inline-block m-2"
                                 >
                                     {activity}
-                                </li>
+                                </motion.li>
                             ))}
-                        </ul>
+                        </motion.ul>
                     ) : (
-                        <p className="mt-2 text-[#3B1E54]">
+                        <p className="mt-2 text-black">
                             No recent activities to display.
                         </p>
                     )}
-                </div>
-            </div>
-        </div>
+                </motion.div>
+            </motion.div>
+        </motion.div>
     );
 };
 

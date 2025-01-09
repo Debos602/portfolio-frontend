@@ -12,11 +12,11 @@ import {
     SolutionOutlined,
     UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Button, Dropdown, Layout, Menu, Space, theme } from "antd";
+import { Avatar, Button, Dropdown, Layout, Menu, Space } from "antd";
 import { Link, useNavigate, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { logout } from "@/redux/feature/authSlice";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/1-removebg-preview.png";
 import { RootState } from "@/redux/store";
 import { TUser } from "@/types/global";
 
@@ -29,9 +29,6 @@ const AdminDashboard: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
 
     const handleLogout = (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,12 +40,12 @@ const AdminDashboard: React.FC = () => {
         {
             key: "1",
             icon: (
-                <BookOutlined className="mr-2" style={{ color: "#EEEEEE" }} />
+                <BookOutlined className="mr-2" />
             ),
             label: (
                 <Link
                     to="/admin-dashboard/management-blog"
-                    style={{ color: "#EEEEEE" }}
+
                 >
                     Blog Management
                 </Link>
@@ -59,13 +56,13 @@ const AdminDashboard: React.FC = () => {
             icon: (
                 <DatabaseOutlined
                     className="mr-2"
-                    style={{ color: "#EEEEEE" }}
+
                 />
             ),
             label: (
                 <Link
                     to="/admin-dashboard/management-skills"
-                    style={{ color: "#EEEEEE" }}
+
                 >
                     Skill Management
                 </Link>
@@ -76,13 +73,13 @@ const AdminDashboard: React.FC = () => {
             icon: (
                 <SolutionOutlined
                     className="mr-2"
-                    style={{ color: "#EEEEEE" }}
+
                 />
             ),
             label: (
                 <Link
                     to="/admin-dashboard/management-projects"
-                    style={{ color: "#EEEEEE" }}
+
                 >
                     Project Management
                 </Link>
@@ -91,12 +88,12 @@ const AdminDashboard: React.FC = () => {
         {
             key: "4",
             icon: (
-                <CodeOutlined className="mr-2" style={{ color: "#EEEEEE" }} />
+                <CodeOutlined className="mr-2" />
             ),
             label: (
                 <Link
                     to="/admin-dashboard/management-experience"
-                    style={{ color: "#EEEEEE" }}
+
                 >
                     Experience Management
                 </Link>
@@ -111,27 +108,27 @@ const AdminDashboard: React.FC = () => {
                 collapsible
                 collapsed={collapsed}
                 width={300}
-                className="relative bg-[#3B1E54]"
+                className=" text-black !fixed left-0 top-0 z-30"
             >
-                <div className="sticky top-0 z-30">
-                    <div className=" flex  justify-center items-center bg-gradient-to-t from-[#867496] to-[#9B7EBD] ">
+                <div>
+                    <div className="flex justify-center items-center bg-black p-4">
                         <img
                             src={logo}
-                            className="h-[6rem] object-cover"
+                            className="h-full max-h-[4rem]  object-cover"
                             alt="logo"
                         />
                     </div>
                     <Menu
                         mode="inline"
                         items={menuItems}
-                        className="text-xl h-screen"
+                        className="text-[15px] h-screen text-black"
                     />
                 </div>
             </Sider>
-            <Layout>
-                <Header className="flex justify-between items-center bg-gradient-to-t from-[#3B1E54] to-[#9B7EBD] text-[#EEEEEE] h-24">
+            <Layout className=" w-full ml-[300px]">
+                <Header className="flex justify-between items-center text-black bg-white h-24 sticky top-0">
                     <Button
-                        className="text-[#EEEEEE] text-5xl"
+                        className="text-black text-5xl"
                         type="text"
                         icon={
                             collapsed ? (
@@ -200,10 +197,7 @@ const AdminDashboard: React.FC = () => {
                     ) : null}
                 </Header>
                 <Content
-                    style={{
-                        background: colorBgContainer,
-                        borderRadius: borderRadiusLG,
-                    }}
+
                 >
                     <Outlet />
                 </Content>

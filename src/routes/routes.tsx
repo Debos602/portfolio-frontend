@@ -8,15 +8,6 @@ import ProtectedRoute from "@/layout/ProtectedRoute";
 import ErrorPage from "@/layout/ErrorPage";
 import AdminDashboard from "@/pages/Dashboard/AdminDashboard";
 import ResetPassword from "@/pages/ResetPassword";
-import About from "@/pages/Home/About/About";
-import Projects from "@/pages/Home/Projects";
-import Skills from "@/pages/Home/Skills";
-import Blog from "@/pages/Home/Blog";
-import Contact from "@/pages/Contact";
-import Introduction from "@/pages/Home/Introduction";
-import Experience from "@/pages/Home/Experience";
-import Home from "@/pages/Home/Home";
-import ProjectDetails from "@/pages/Home/ProjectsDetails";
 import AddBlog from "@/pages/AdminDashboard/BlogManagment/AddBlog";
 import AddSkills from "@/pages/AdminDashboard/SkillManagement/AddSkills";
 import AddProjects from "@/pages/AdminDashboard/ProjectManagement/AddProjects";
@@ -29,44 +20,22 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             ...routeGenerator(navPaths),
-
             {
-                path: "/",
-                element: <Home />,
+                index: true,
+                element: <Login />,
             },
             {
-                path: "/introduction",
-                element: <Introduction />,
+                path: "/register",
+                element: <SignUp />,
             },
             {
-                path: "/about",
-                element: <About />,
+                path: "/login",
+                element: <Login />,
             },
             {
-                path: "/projects",
-                element: <Projects />,
+                path: "/reset-password",
+                element: <ResetPassword />,
             },
-            {
-                path: "/projects/:id",
-                element: <ProjectDetails />,
-            },
-            {
-                path: "/expereince",
-                element: <Experience />,
-            },
-            {
-                path: "/skills",
-                element: <Skills />,
-            },
-            {
-                path: "/blog",
-                element: <Blog />,
-            },
-            {
-                path: "/contact",
-                element: <Contact />,
-            },
-
             {
                 path: "*",
                 element: <ErrorPage />,
@@ -74,28 +43,10 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: "/register",
-        element: <SignUp />,
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-
-    {
-        path: "/reset-password",
-        element: <ResetPassword />,
-    },
-    {
-        path: "*",
-        element: <ErrorPage />,
-    },
-    {
         path: "/admin-dashboard",
         element: (
             <ProtectedRoute allowedRoles={["admin"]}>
-                {" "}
-                <AdminDashboard />{" "}
+                <AdminDashboard />
             </ProtectedRoute>
         ),
         children: [

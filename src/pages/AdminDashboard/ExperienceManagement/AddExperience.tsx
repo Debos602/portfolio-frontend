@@ -9,6 +9,7 @@ import {
     useUpdateExperienceMutation,
 } from "@/redux/feature/experience/experience.api"; // Import the mutation hooks
 import WelcomeDashboard from "@/pages/Dashboard/WelcomeDashboard";
+import { motion } from "framer-motion";
 
 const AddExperience: React.FC = () => {
     const {
@@ -67,9 +68,9 @@ const AddExperience: React.FC = () => {
     const handleDelete = async (id: string) => {
         try {
             await deleteExperience(id).unwrap();
-            toast.success("Blog deleted successfully!");
+            toast.success("Experience deleted successfully!");
         } catch {
-            toast.error("Failed to delete blog. Please try again.");
+            toast.error("Failed to delete experience. Please try again.");
         }
     };
 
@@ -89,20 +90,32 @@ const AddExperience: React.FC = () => {
     };
 
     return (
-        <div className="bg-gradient-to-b from-[#D4BEE4] to-[#EEEEEE] min-h-screen">
+        <motion.div
+            className="min-h-screen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <WelcomeDashboard
                 adminName="Admin"
                 totalBlogs={ExperienceData.length}
                 recentActivity={recentActivities}
             />
-            <div className="max-w-7xl mx-auto">
+            <motion.div
+                className="container mx-auto"
+                initial={{ x: -100 }}
+                animate={{ x: 0 }}
+                exit={{ x: 100 }}
+                transition={{ duration: 0.3 }}
+            >
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                    <div className="col-span-2 bg-white shadow-lg rounded-lg p-8">
+                    <div className="col-span-2 bg-white shadow-lg rounded-xl border-2  p-8">
                         <form
                             onSubmit={handleSubmit(onSubmit)}
                             className="space-y-6"
                         >
-                            <h2 className="text-2xl font-extrabold text-[#3B1E54] text-center">
+                            <h2 className="text-2xl font-extrabold text-black text-center">
                                 {isEditing
                                     ? "Update Experience"
                                     : "Add Experience"}
@@ -112,7 +125,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="title"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Title
                                 </label>
@@ -121,7 +134,7 @@ const AddExperience: React.FC = () => {
                                     {...register("title", {
                                         required: "Title is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 text-black rounded-xl border-2  focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.title && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -134,7 +147,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="company"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Company
                                 </label>
@@ -143,7 +156,7 @@ const AddExperience: React.FC = () => {
                                     {...register("company", {
                                         required: "Company is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 rounded-xl border-2  text-black focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.company && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -156,7 +169,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="startDate"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Start Date
                                 </label>
@@ -166,7 +179,7 @@ const AddExperience: React.FC = () => {
                                     {...register("startDate", {
                                         required: "Start Date is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 rounded-xl border-2  text-black focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.startDate && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -179,7 +192,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="endDate"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     End Date
                                 </label>
@@ -189,7 +202,7 @@ const AddExperience: React.FC = () => {
                                     {...register("endDate", {
                                         required: "End Date is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 text-black rounded-xl border-2  focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.endDate && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -202,7 +215,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="description"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Description
                                 </label>
@@ -211,7 +224,7 @@ const AddExperience: React.FC = () => {
                                     {...register("description", {
                                         required: "Description is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 rounded-xl border-2  text-black focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.description && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -224,7 +237,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="location"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Location
                                 </label>
@@ -233,7 +246,7 @@ const AddExperience: React.FC = () => {
                                     {...register("location", {
                                         required: "Location is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 rounded-xl border-2  text-black focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.location && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -246,7 +259,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="role"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Role
                                 </label>
@@ -255,7 +268,7 @@ const AddExperience: React.FC = () => {
                                     {...register("role", {
                                         required: "Role is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 rounded-xl border-2  text-black focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.role && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -268,7 +281,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="designation"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Designation
                                 </label>
@@ -277,7 +290,7 @@ const AddExperience: React.FC = () => {
                                     {...register("designation", {
                                         required: "Designation is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 text-black rounded-xl border-2  focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.designation && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -290,7 +303,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="responsibilities"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Responsibilities
                                 </label>
@@ -300,7 +313,7 @@ const AddExperience: React.FC = () => {
                                         required:
                                             "Responsibilities are required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 rounded-xl border-2  text-black focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.responsibilities && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -313,7 +326,7 @@ const AddExperience: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="technologies"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-lg font-medium text-black"
                                 >
                                     Technologies
                                 </label>
@@ -322,7 +335,7 @@ const AddExperience: React.FC = () => {
                                     {...register("technologies", {
                                         required: "Technologies are required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 rounded-xl border-2  text-black focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.technologies && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -335,7 +348,7 @@ const AddExperience: React.FC = () => {
                                 <button
                                     type="submit"
                                     disabled={isCreating || isUpdating}
-                                    className="mt-6 w-full py-3 px-6 bg-[#9B7EBD] text-white rounded-lg hover:bg-[#8c64a1] disabled:bg-gray-400"
+                                    className="mt-6 w-full py-3 px-6 rounded-xl border-2  text-white bg-black hover:opacity-90 disabled:bg-gray-400"
                                 >
                                     {isCreating || isUpdating
                                         ? "Saving..."
@@ -346,31 +359,31 @@ const AddExperience: React.FC = () => {
                     </div>
                     <div className="col-span-3 space-y-4">
                         {isFetching ? (
-                            <p className="text-center text-lg text-[#3B1E54]">
+                            <p className="text-center text-lg text-black">
                                 Loading experience...
                             </p>
                         ) : experience?.length === 0 ? (
-                            <p className="text-center text-lg text-[#3B1E54]">
+                            <p className="text-center text-lg text-black">
                                 No Experience found.
                             </p>
                         ) : (
                             experience?.map((exp: TExperience) => (
                                 <div
                                     key={exp._id}
-                                    className="p-6 bg-white rounded-lg shadow-md flex justify-between items-start hover:shadow-lg transition duration-300"
+                                    className="p-6 rounded-xl border-2  shadow-md flex justify-between items-start hover:shadow-lg transition duration-300"
                                 >
                                     <div>
-                                        <h3 className="text-xl font-bold text-[#3B1E54]">
+                                        <h3 className="text-xl font-bold text-black">
                                             {exp.title}
                                         </h3>
-                                        <p className="mt-2 text-[#9B7EBD]">
+                                        <p className="mt-2 text-base text-black">
                                             {exp.description}
                                         </p>
                                     </div>
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => handleEdit(exp)}
-                                            className="px-4 py-2 bg-[#9B7EBD] hover:bg-[#3B1E54] text-white font-semibold rounded-lg hover:opacity-90"
+                                            className="px-4 py-2 bg-black hover:bg-[#3B1E54] text-white font-semibold border-2 rounded-xl  hover:opacity-90"
                                         >
                                             Edit
                                         </button>
@@ -378,11 +391,10 @@ const AddExperience: React.FC = () => {
                                             onClick={() =>
                                                 handleDelete(exp._id!)
                                             }
-                                            className={`px-4 py-2 font-semibold text-white rounded-lg ${
-                                                isDeleting
-                                                    ? "bg-gray-400 cursor-not-allowed"
-                                                    : "bg-[#9B7EBD] hover:bg-[#3B1E54]"
-                                            }`}
+                                            className={`px-4 py-2 font-semibold text-white border-2 rounded-xl  ${isDeleting
+                                                ? "bg-gray-400 cursor-not-allowed"
+                                                : "bg-black hover:bg-[#3B1E54]"
+                                                }`}
                                             disabled={isDeleting}
                                         >
                                             Delete
@@ -393,8 +405,8 @@ const AddExperience: React.FC = () => {
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 };
 

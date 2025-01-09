@@ -10,6 +10,7 @@ import { TSkill } from "@/types/global";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 const AddSkills: React.FC = () => {
     const {
@@ -69,7 +70,7 @@ const AddSkills: React.FC = () => {
     };
 
     return (
-        <div className="bg-gradient-to-b from-[#D4BEE4] to-[#EEEEEE] min-h-screen">
+        <div className="min-h-screen pb-8">
             <WelcomeDashboard
                 adminName="Admin"
                 totalBlogs={skillData.length}
@@ -77,14 +78,19 @@ const AddSkills: React.FC = () => {
                     (skill: TSkill) => ` ${skill.title}`
                 )}
             />
-            <div className="max-w-7xl mx-auto">
+            <div className="container mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                    <div className="col-span-2 bg-white shadow-lg rounded-lg p-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="col-span-2 border-2  rounded-xl p-8"
+                    >
                         <form
                             onSubmit={handleSubmit(onSubmit)}
                             className="space-y-6"
                         >
-                            <h2 className="text-2xl font-extrabold text-[#3B1E54] text-center">
+                            <h2 className="text-2xl font-extrabold text-black text-center">
                                 {isEditing ? "Update Skill" : "Add Skill"}
                             </h2>
 
@@ -92,7 +98,7 @@ const AddSkills: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="name"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-base font-medium text-black"
                                 >
                                     Name
                                 </label>
@@ -101,7 +107,7 @@ const AddSkills: React.FC = () => {
                                     {...register("title", {
                                         required: "Name is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 bg-transparent border-2  text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.title && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -114,7 +120,7 @@ const AddSkills: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="level"
-                                    className="block text-lg font-medium text-[#3B1E54]"
+                                    className="block text-base font-medium text-black"
                                 >
                                     Level
                                 </label>
@@ -123,7 +129,7 @@ const AddSkills: React.FC = () => {
                                     {...register("description", {
                                         required: "Level is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-[#D4BEE4] text-[#3B1E54] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 bg-transparent border-2  text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.description && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -134,49 +140,51 @@ const AddSkills: React.FC = () => {
 
                             <button
                                 type="submit"
-                                className={`w-full py-3 font-bold rounded-lg text-white ${
-                                    isCreating || isUpdating
-                                        ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-[#9B7EBD] to-[#3B1E54] hover:opacity-90"
-                                }`}
+                                className={`w-full py-3 font-bold rounded-xl text-white ${isCreating || isUpdating
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-black hover:bg-[#3B1E54]"
+                                    }`}
                                 disabled={isCreating || isUpdating}
                             >
                                 {isCreating || isUpdating
                                     ? "Saving..."
                                     : isEditing
-                                    ? "Update Skill"
-                                    : "Add Skill"}
+                                        ? "Update Skill"
+                                        : "Add Skill"}
                             </button>
                         </form>
-                    </div>
+                    </motion.div>
 
                     <div className="col-span-3 space-y-4">
                         {isFetching ? (
-                            <p className="text-center text-lg text-[#3B1E54]">
+                            <p className="text-center text-base text-black">
                                 Loading skills...
                             </p>
                         ) : skillData.length === 0 ? (
-                            <p className="text-center text-lg text-[#3B1E54]">
+                            <p className="text-center text-base text-black">
                                 No skills found.
                             </p>
                         ) : (
                             skillData.map((skill: TSkill) => (
-                                <div
+                                <motion.div
                                     key={skill._id}
-                                    className="p-6 bg-white rounded-lg shadow-md flex justify-between items-start hover:shadow-lg transition duration-300"
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="p-6 border-2  rounded-xl shadow-md flex justify-between items-start hover:shadow-lg transition duration-300"
                                 >
                                     <div>
-                                        <h3 className="text-xl font-bold text-[#3B1E54]">
+                                        <h3 className="text-xl font-bold text-black">
                                             {skill.title}
                                         </h3>
-                                        <p className="mt-2 text-[#9B7EBD]">
+                                        <p className="mt-2 text-black">
                                             {skill.description}
                                         </p>
                                     </div>
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => handleEdit(skill)}
-                                            className="px-4 py-2 bg-[#9B7EBD] hover:bg-[#3B1E54] text-white font-semibold rounded-lg hover:opacity-90"
+                                            className="px-4 py-2 bg-black hover:bg-[#3B1E54] text-white font-semibold rounded-xl hover:opacity-90"
                                         >
                                             Edit
                                         </button>
@@ -184,17 +192,16 @@ const AddSkills: React.FC = () => {
                                             onClick={() =>
                                                 handleDelete(skill._id!)
                                             }
-                                            className={`px-4 py-2 font-semibold text-white rounded-lg ${
-                                                isDeleting
-                                                    ? "bg-gray-400 cursor-not-allowed"
-                                                    : "bg-[#9B7EBD] hover:bg-[#3B1E54]"
-                                            }`}
+                                            className={`px-4 py-2 font-semibold text-white rounded-xl ${isDeleting
+                                                ? "bg-gray-400 cursor-not-allowed"
+                                                : "bg-black hover:bg-[#3B1E54]"
+                                                }`}
                                             disabled={isDeleting}
                                         >
                                             Delete
                                         </button>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))
                         )}
                     </div>

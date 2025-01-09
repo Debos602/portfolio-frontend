@@ -7,50 +7,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-horizontal {
-    border-bottom: 0;
-}
-
-body.light {
-    --bg-color: white;
-}
-
-body.dark {
-    --bg-color: #d1cfcf;
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-:where(.css-qnu6hi).ant-menu-horizontal {
-    border-bottom: none;
-}
-
-:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light,
-:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light > .ant-menu {
-    color: #eeeeee;
-    background: #3b1e54;
-}
 :where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
     .ant-menu-item-selected,
 :where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
     > .ant-menu
     .ant-menu-item-selected {
-    background-color: #9b7ebd;
-}
-:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
-    .ant-menu-item-selected,
-:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-light
-    > .ant-menu
-    .ant-menu-item-selected {
-    color: #eeeeee;
-}
-:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-dark
-    .ant-menu-item-selected,
-:where(.css-dev-only-do-not-override-qnu6hi).ant-menu-dark
-    > .ant-menu
-    .ant-menu-item-selected {
-    background-color: #9b7ebd;
+    color: #3b1e54;
 }
