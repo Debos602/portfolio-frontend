@@ -2,7 +2,7 @@ import App from "@/App";
 import { routeGenerator } from "@/utilities/routeGenarator";
 import { createBrowserRouter } from "react-router-dom";
 import { navPaths } from "./navRoutes";
-import Login from "@/pages/Login";
+import Login from "@/pages/Login/Login";
 import SignUp from "@/pages/SignUp";
 import ProtectedRoute from "@/layout/ProtectedRoute";
 import ErrorPage from "@/layout/ErrorPage";
