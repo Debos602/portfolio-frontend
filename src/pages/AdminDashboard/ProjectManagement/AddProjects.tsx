@@ -24,7 +24,7 @@ const AddProjects: React.FC = () => {
         useCreateProjectMutation();
     const [updateProject, { isLoading: isUpdating }] =
         useUpdateProjectMutation();
-    const [deleteProject] = useDeleteProjectMutation();
+    const [deleteProject, { isLoading: isDeleting }] = useDeleteProjectMutation();
     const { data: projectData, isFetching } = useGetAllProjectsQuery(
         undefined,
         { refetchOnMountOrArgChange: true, refetchOnFocus: true }
@@ -34,6 +34,8 @@ const AddProjects: React.FC = () => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [currentProjectId, setCurrentProjectId] = useState<string | null>(null);
+    const [file, setFile] = useState<File | null>(null);
+
 
     const recentActivities = projectData?.data?.map(
         (project: TProject) => ` ${project.title}`
@@ -43,22 +45,39 @@ const AddProjects: React.FC = () => {
 
     const onSubmit: SubmitHandler<TProject> = async (data) => {
         console.log(data);
+        const newProject = { ...data };
+        const formData = new FormData();
+        formData.append("title", newProject.title);
+        formData.append("description", newProject.description);
+        formData.append("githubLinkFrontend", newProject.githubLinkFrontend);
+        formData.append("githubLinkBackend", newProject.githubLinkBackend);
+        formData.append("liveLink", newProject.liveLink);
+
+        // Append the image only if it's available
+        if (file) {
+            formData.append("image", file);
+        }
+
         try {
             if (isEditing && currentProjectId) {
-                await updateProject({
-                    ...data,
-                    _id: currentProjectId,
-                }).unwrap();
+                console.log("ProjectId", currentProjectId);
+                // Append the `_id` to the FormData
+                formData.append("_id", currentProjectId);
+
+                // Send the FormData to the backend
+                await updateProject(formData).unwrap();
                 toast.success("Project updated successfully!");
                 setIsEditing(false);
                 setCurrentProjectId(null);
+                setFile(null);
             } else {
                 console.log(data);
-                await createProject(data).unwrap();
+                await createProject(formData).unwrap();
                 toast.success("Project added successfully!");
             }
             reset();
-        } catch {
+        } catch (error) {
+            console.error("Error saving project:", error); // Log the error for debugging
             toast.error("Failed to save project. Please try again.");
         }
     };
@@ -81,6 +100,10 @@ const AddProjects: React.FC = () => {
         setValue("githubLinkFrontend", project.githubLinkFrontend);
         setValue("githubLinkBackend", project.githubLinkBackend);
         setValue("liveLink", project.liveLink);
+    };
+    const handleFileChange = (file: File) => {
+        console.log(file);
+        setFile(file); // Store the file object
     };
 
     return (
@@ -212,6 +235,23 @@ const AddProjects: React.FC = () => {
                                     </p>
                                 )}
                             </div>
+                            <div>
+                                <label
+                                    htmlFor="image"
+                                    className="block text-base font-medium text-black"
+                                >
+                                    Image
+                                </label>
+                                <input
+                                    id="image"
+                                    type="file"
+                                    name="image"
+                                    onChange={(e) =>
+                                        handleFileChange(e.target.files![0])
+                                    }
+                                    className="mt-2 w-full p-2 border text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                />
+                            </div>
 
                             <div className="text-center">
                                 <button
@@ -239,7 +279,7 @@ const AddProjects: React.FC = () => {
                             projects?.map((project: TProject) => (
                                 <motion.div
                                     key={project._id}
-                                    className="bg-white shadow-lg rounded-lg p-4 border-2  rounded-xl"
+                                    className="bg-white shadow-lg rounded-lg p-4 border-2 "
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}
@@ -248,20 +288,25 @@ const AddProjects: React.FC = () => {
                                         {project.title}
                                     </h3>
                                     <p>{project.liveLink}</p>
-                                    <button
-                                        onClick={() => handleEdit(project)}
-                                        className="text-black text-base underline "
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            handleDelete(project._id)
-                                        }
-                                        className="text-black ml-2 border-2  rounded-xl px-2 py-1 "
-                                    >
-                                        Delete
-                                    </button>
+                                    <div className="flex justify-between">
+                                        <button
+                                            onClick={() => handleEdit(project)}
+                                            className="text-black text-base underline"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(project._id)
+                                            }
+                                            className={`rounded-xl px-4 py-2 font-semibold text-white ${isDeleting
+                                                ? "bg-gray-400 cursor-not-allowed"
+                                                : "bg-black hover:bg-[#3B1E54]"
+                                                }`}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </motion.div>
                             ))
                         )}

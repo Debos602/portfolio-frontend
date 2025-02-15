@@ -240,7 +240,7 @@ const AddBlog: React.FC = () => {
                                             {blog.title}
                                         </h3>
                                         <p className="mt-2 text-black">
-                                            {blog.description}
+                                            {blog.description.slice(0, 100)}
                                         </p>
                                     </div>
                                     <div className="flex gap-2">

@@ -28,7 +28,7 @@ const projectManagementApi = baseApi.injectEndpoints({
         }), // Delete a project record by ID
 
         updateProject: builder.mutation({
-            query: ({ data }) => ({
+            query: (data) => ({
                 url: `/api/update-project`,
                 method: "PATCH",
                 body: data,
