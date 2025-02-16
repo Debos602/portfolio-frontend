@@ -103,7 +103,7 @@ const AddExperience: React.FC = () => {
                 recentActivity={recentActivities}
             />
             <motion.div
-                className="container mx-auto"
+                className="w-full"
                 initial={{ x: -100 }}
                 animate={{ x: 0 }}
                 exit={{ x: 100 }}
@@ -370,7 +370,7 @@ const AddExperience: React.FC = () => {
                             experience?.map((exp: TExperience) => (
                                 <div
                                     key={exp._id}
-                                    className="p-6 rounded-xl border-2  shadow-md flex justify-between items-start hover:shadow-lg transition duration-300"
+                                    className="p-6 bg-white rounded-xl border-2  shadow-md flex justify-between items-start hover:shadow-lg transition duration-300"
                                 >
                                     <div>
                                         <h3 className="text-xl font-bold text-black">

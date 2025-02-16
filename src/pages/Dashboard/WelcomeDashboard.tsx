@@ -17,7 +17,7 @@ const WelcomeDashboard: React.FC<WelcomeDashboardProps> = ({
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="p-8"
+            className="pb-8 "
         >
             {/* Header Section */}
             <motion.div
@@ -39,12 +39,12 @@ const WelcomeDashboard: React.FC<WelcomeDashboardProps> = ({
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4"
+                className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 "
             >
                 {/* Total Blogs Card */}
                 <motion.div
 
-                    className="text-black p-6 border-2 rounded-xl shadow-md inline-block"
+                    className="text-black p-6 border-2 rounded-xl shadow-md inline-block bg-white"
                 >
                     <h2 className="text-xl font-semibold text-center">Total</h2>
                     <p className="text-3xl font-bold text-center mt-2">
@@ -55,7 +55,7 @@ const WelcomeDashboard: React.FC<WelcomeDashboardProps> = ({
                 {/* Recent Activity Card */}
                 <motion.div
 
-                    className=" text-black border-2 p-6 rounded-xl shadow-md md:col-span-2"
+                    className=" text-black border-2 p-6 rounded-xl shadow-md md:col-span-2 bg-white"
                 >
                     <h2 className="text-2xl font-semibold">Recent Activities</h2>
                     {recentActivity.length > 0 ? (

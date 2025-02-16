@@ -103,14 +103,15 @@ const AddBlog: React.FC = () => {
                 totalBlogs={blogData.length}
                 recentActivity={recentActivities}
             />
-            <div className="container mx-auto w-full">
+            <div className="w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 pb-8">
                     {/* Add/Update Blog Form */}
                     <motion.div
-                        className="col-span-2 border-2 rounded-xl p-4"
+                        className="col-span-2 border-2 rounded-xl p-4 bg-white"
                         initial={{ x: -50, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ duration: 0.5 }}
+
                     >
                         <form
                             onSubmit={handleSubmit(onSubmit)}
@@ -229,7 +230,7 @@ const AddBlog: React.FC = () => {
                             blogData.map((blog: TBlog) => (
                                 <motion.div
                                     key={blog._id}
-                                    className="p-6 border-2 rounded-xl flex justify-between items-start hover:shadow-lg transition duration-300"
+                                    className="p-6 border-2 rounded-xl flex justify-between items-start hover:shadow-lg transition duration-300 bg-white"
                                     whileHover={{ scale: 1.02 }}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}

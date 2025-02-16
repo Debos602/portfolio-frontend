@@ -113,7 +113,7 @@ const AddProjects: React.FC = () => {
                 totalBlogs={projects.length}
                 recentActivity={recentActivities}
             />
-            <div className="container mx-auto">
+            <div className="w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     <div className="col-span-2 bg-white shadow-lg  p-8 rounded-xl border-2  ">
                         <form
@@ -279,7 +279,7 @@ const AddProjects: React.FC = () => {
                             projects?.map((project: TProject) => (
                                 <motion.div
                                     key={project._id}
-                                    className="bg-white shadow-lg rounded-lg p-4 border-2 "
+                                    className="bg-white shadow-lg rounded-xl p-4 border-2 "
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ duration: 0.5 }}

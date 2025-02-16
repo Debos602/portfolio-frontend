@@ -163,9 +163,7 @@ const AdminDashboard: React.FC = () => {
                 </Header>
                 <Content style={{
                     margin: "24px 16px",
-                    padding: 24,
                     minHeight: 280,
-                    backgroundColor: "#fff",
                     borderRadius: "8px",
                     color: "#07041e",
                 }}>

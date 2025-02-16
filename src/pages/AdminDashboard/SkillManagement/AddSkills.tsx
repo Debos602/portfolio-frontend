@@ -78,13 +78,13 @@ const AddSkills: React.FC = () => {
                     (skill: TSkill) => ` ${skill.title}`
                 )}
             />
-            <div className="container mx-auto">
+            <div className="w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="col-span-2 border-2  rounded-xl p-8"
+                        className="col-span-2 border-2  rounded-xl p-8 bg-white"
                     >
                         <form
                             onSubmit={handleSubmit(onSubmit)}
@@ -107,7 +107,7 @@ const AddSkills: React.FC = () => {
                                     {...register("title", {
                                         required: "Name is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-transparent border-2  text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 bg-transparent border-2  text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.title && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -129,7 +129,7 @@ const AddSkills: React.FC = () => {
                                     {...register("description", {
                                         required: "Level is required",
                                     })}
-                                    className="mt-2 w-full p-3 bg-transparent border-2  text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
+                                    className="mt-2 w-full p-3 bg-transparent border-2  text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B7EBD]"
                                 />
                                 {errors.description && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -171,7 +171,7 @@ const AddSkills: React.FC = () => {
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 0.3 }}
-                                    className="p-6 border-2  rounded-xl shadow-md flex justify-between items-start hover:shadow-lg transition duration-300"
+                                    className="p-6 border-2  rounded-xl shadow-md flex justify-between items-start hover:shadow-lg transition duration-300 bg-white"
                                 >
                                     <div>
                                         <h3 className="text-xl font-bold text-black">
